@@ -12,6 +12,7 @@ import { HomeComponent } from './components/home/home.component';
 import { LoginComponent } from './components/login/login.component';
 import { RegistrationComponent } from './components/registration/registration.component';
 import { HttpClientModule } from '@angular/common/http';
+import { ChatComponent } from './components/chat/chat.component';
 
 @NgModule({
   declarations: [
@@ -19,6 +20,7 @@ import { HttpClientModule } from '@angular/common/http';
     HomeComponent,
     LoginComponent,
     RegistrationComponent,
+    ChatComponent,
    
   ],
   imports: [
