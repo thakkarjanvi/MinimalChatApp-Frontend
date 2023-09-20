@@ -1,0 +1,44 @@
+/* home.component.css */
+
+.home-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f0f0f0; /* Background color for the container */
+  }
+  
+  .content {
+    text-align: center;
+  }
+  
+  h1 {
+    font-size: 36px;
+    margin-bottom: 20px;
+    color: #333; /* Text color */
+  }
+  
+  .buttons {
+    display: flex;
+    justify-content: center;
+  }
+  
+  button {
+    padding: 10px 20px;
+    font-size: 18px;
+    margin: 0 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .login-button {
+    background-color: #007BFF; /* Blue color */
+    color: #fff; /* White text color */
+  }
+  
+  .register-button {
+    background-color: #28A745; /* Green color */
+    color: #fff; /* White text color */
+  }
+  
