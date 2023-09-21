@@ -13,6 +13,8 @@ import { LoginComponent } from './components/login/login.component';
 import { RegistrationComponent } from './components/registration/registration.component';
 import { HttpClientModule } from '@angular/common/http';
 import { ChatComponent } from './components/chat/chat.component';
+import { UserlistComponent } from './components/userlist/userlist.component';
+import { UserService } from './services/user.service';
 
 @NgModule({
   declarations: [
@@ -21,6 +23,7 @@ import { ChatComponent } from './components/chat/chat.component';
     LoginComponent,
     RegistrationComponent,
     ChatComponent,
+    UserlistComponent,
    
   ],
   imports: [
@@ -32,7 +35,7 @@ import { ChatComponent } from './components/chat/chat.component';
     ToastrModule.forRoot(),
     HttpClientModule
   ],
-  providers: [],
+  providers: [UserService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

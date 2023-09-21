@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { User } from 'src/app/models/user.model';
 import { AuthService } from 'src/app/services/auth.service';
 import { ToastrService } from 'ngx-toastr';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -18,7 +19,8 @@ export class RegistrationComponent implements OnInit {
   constructor(
     private authService: AuthService,
     private toastr: ToastrService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private router:Router
   ) {}
 
   ngOnInit(): void {
@@ -38,6 +40,7 @@ export class RegistrationComponent implements OnInit {
         // Registration successful
         this.toastr.success('Registration successful!', 'Success');
         // Redirect to login page or perform other actions
+        this.router.navigate(['/login']);
       },
       (error) => {
         // Registration failed
