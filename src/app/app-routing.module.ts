@@ -6,12 +6,14 @@ import { RegistrationComponent } from './components/registration/registration.co
 import { ChatComponent } from './components/chat/chat.component';
 import { AuthGuard } from './guards/auth.guard';
 import { UserlistComponent } from './components/userlist/userlist.component';
+import { ConversationhistoryComponent } from './components/conversationhistory/conversationhistory.component';
 
 const routes: Routes = [
   {path:'', component: HomeComponent},
   {path:'login', component: LoginComponent},
   {path:'registration', component: RegistrationComponent},
   {path: 'chat', component: ChatComponent, canActivate: [AuthGuard] },
+  {path: 'chat/user/:id', component: ConversationhistoryComponent}
   
 ];
 

@@ -15,6 +15,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { ChatComponent } from './components/chat/chat.component';
 import { UserlistComponent } from './components/userlist/userlist.component';
 import { UserService } from './services/user.service';
+import { ConversationhistoryComponent } from './components/conversationhistory/conversationhistory.component';
 
 @NgModule({
   declarations: [
@@ -24,6 +25,7 @@ import { UserService } from './services/user.service';
     RegistrationComponent,
     ChatComponent,
     UserlistComponent,
+    ConversationhistoryComponent,
    
   ],
   imports: [

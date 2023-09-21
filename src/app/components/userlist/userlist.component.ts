@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { UserService } from 'src/app/services/user.service';
 import { User } from 'src/app/models/user.model';
 import { ToastrService } from 'ngx-toastr';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-userlist',
@@ -10,8 +11,8 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class UserlistComponent implements OnInit{
   users: User[] = [];
-
-  constructor(private userService: UserService, private toastr: ToastrService,) {}
+  selectedUser: any = null;
+  constructor(private userService: UserService, private toastr: ToastrService, private router:Router) {}
 
   ngOnInit(): void {
     this.userService.getUsers().subscribe((data:any) => {
@@ -25,4 +26,11 @@ export class UserlistComponent implements OnInit{
   }
   );
 }
+
+  startChat(user:any){
+    this.selectedUser = user;
+    console.log(this.selectedUser);
+    this.router.navigate(['/chat/user', this.selectedUser.id]);
+  }
+
 }
