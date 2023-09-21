@@ -1,0 +1,14 @@
+<div class="conversation-container">
+  <!-- User list component (20% of the screen) -->
+
+  <div class="history-container">
+    <h2>Conversation History</h2>
+    <div class="messages">
+      <div *ngFor="let message of messages" class="message">
+        <p>{{ message.content }}</p>
+        <small>{{ message.timestamp | date: 'medium' }}</small>
+      </div>
+    </div>
+    <button *ngIf="hasMore" (click)="fetchConversationHistory()">Load More</button>
+  </div>
+</div>

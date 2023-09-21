@@ -12,6 +12,7 @@
   margin-bottom: 10px;
   border-radius: 5px;
   text-align: left;
+  text-decoration: none;
 }
 
 .user-item.odd {
@@ -24,4 +25,10 @@
 
 .user-details {
   color: #fff; /* Text color inside each user box */
+  text-decoration: none !important;
+}
+
+.user-item a {
+  text-decoration: none;
+  color: inherit;
 }
