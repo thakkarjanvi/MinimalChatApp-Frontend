@@ -5,12 +5,14 @@ import { LoginComponent } from './components/login/login.component';
 import { RegistrationComponent } from './components/registration/registration.component';
 import { ChatComponent } from './components/chat/chat.component';
 import { AuthGuard } from './guards/auth.guard';
+import { UserlistComponent } from './components/userlist/userlist.component';
 
 const routes: Routes = [
   {path:'', component: HomeComponent},
   {path:'login', component: LoginComponent},
   {path:'registration', component: RegistrationComponent},
   {path: 'chat', component: ChatComponent, canActivate: [AuthGuard] },
+  
 ];
 
 @NgModule({

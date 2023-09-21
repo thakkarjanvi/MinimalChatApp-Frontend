@@ -1,0 +1,13 @@
+<!-- <p>userlist works!</p> -->
+
+<div class="sidebar">
+  <div class="user-list">
+    <h3>User List</h3>
+    <div *ngFor="let user of users; let even = even; let odd = odd" class="user-item" [ngClass]="{ 'odd': odd, 'even': even }">
+      <div class="user-details">
+        <p>{{ user.name }}</p>
+        <small>{{ user.email }}</small>
+      </div>
+    </div>
+  </div>
+</div>

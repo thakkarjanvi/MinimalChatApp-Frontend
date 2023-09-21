@@ -1,0 +1,27 @@
+.sidebar {
+  width: 20%;
+  background-color: #D3D3D3; /* Adjust the background color as needed */
+  padding: 20px;
+  color: black; /* Text color */
+  text-align: center;
+
+}
+
+.user-item {
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  text-align: left;
+}
+
+.user-item.odd {
+  background-color: #007BFF; /* Background color for odd items */
+}
+
+.user-item.even {
+  background-color: #28A745; /* Background color for even items */
+}
+
+.user-details {
+  color: #fff; /* Text color inside each user box */
+}

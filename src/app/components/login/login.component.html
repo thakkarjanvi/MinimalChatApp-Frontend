@@ -2,7 +2,7 @@
 
 <div class="main">
     <div class="login">
-        <h3>Login</h3>
+        <h3>Login Form</h3>
         <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
             <input type="email" placeholder="Email address" formControlName="email">
             <small *ngIf="loginForm.get('email')?.hasError('required') && loginForm.get('email')?.touched" style="color: red;">*Email address is required</small>

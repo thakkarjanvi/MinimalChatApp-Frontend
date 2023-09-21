@@ -3,6 +3,7 @@ import { AuthService } from 'src/app/services/auth.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { User } from 'src/app/models/user.model';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -15,7 +16,7 @@ export class LoginComponent implements OnInit{
   errorMessage: string = '';
   
 
-  constructor(private authService: AuthService, private fb: FormBuilder,  private toastr: ToastrService,) {}
+  constructor(private authService: AuthService, private fb: FormBuilder,  private toastr: ToastrService, private router:Router) {}
 
   ngOnInit() {
     // Initialize the loginForm with FormBuilder
@@ -39,6 +40,7 @@ export class LoginComponent implements OnInit{
         localStorage.setItem('token', response.token);
         // Redirect to chat route
         // You can use Router to navigate to the chat route
+        this.router.navigate(['/chat']);
       },
       (error) => {
         // Handle login failure and display relevant error message
