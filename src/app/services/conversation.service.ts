@@ -1,54 +1,32 @@
-import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Message } from '../models/message.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ConversationService {
-  private apiUrl = 'https://localhost:44353/api';
+  private apiUrl = 'https://localhost:44353/api/messages';
 
   constructor(private http: HttpClient) { }
-  getToken(): string | null {
-    return localStorage.getItem('token');
-  }
-  // Add JWT token to headers
-  private getHeaders(): HttpHeaders {
-    const token = this.getToken();
-    return new HttpHeaders({
-      'Content-Type': 'application/json',
+
+  clickedUser: any = null;
+  receiverId!: number ;
+  getConversationHistory(userId: number, before?: Date, count: number = 20, sort: string ='asc'): Observable<any[]> {
+    
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders({
       'Authorization': `Bearer ${token}`
     });
-  }
+    
+    let params = new HttpParams().set('userId', userId.toString())
+    .set('count', count.toString())
+    .set('sort', sort);
 
-  // getConversationHistory(userId: string, before?: string): Observable<Message[]> {
-  //   let params = new HttpParams().set('sort', 'desc').set('limit', '20');
+    if (before) {
+      params = params.set('before', before.toISOString());
+    }
 
-  //   if (before) {
-  //     params = params.set('before', before);
-  //   }
-  //   const headers = this.getHeaders();
-  //   params = params.set('userId', userId);
-
-  //   return this.http.get<Message[]>(`${this.apiUrl}`, {headers, params });
-  // }
-
-  getConversationHistory(senderId: string,
-    receiverId: string,
-    sort: string,
-    time: Date,
-    count: number,
-    headers:HttpHeaders
-  ): Observable<any> {
-    const params = new HttpParams()
-      .set('receiverId', receiverId)
-      .set('sort', sort)
-      .set('time', time.toISOString())
-      .set('count', count.toString());
-
-    const options = { headers, params };
-
-    return this.http.get(`${this.apiUrl}/messages`,{ headers, params });
+    return this.http.get<any[]>(`${this.apiUrl}/${userId}`, { params });
   }
 }

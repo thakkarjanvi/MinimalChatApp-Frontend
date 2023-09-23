@@ -4,7 +4,7 @@
   <div class="user-list">
     <h3>User List</h3>
     <div *ngFor="let user of users; let even = even; let odd = odd" class="user-item" 
-    [ngClass]="{ 'odd': odd, 'even': even }">
+    [ngClass]="{ 'odd': odd, 'even': even }" (click)="UserClick(user)">
     <!-- <a [routerLink]="['/chat/user', user.id]"> -->
       <div class="user-details">
       <p>{{ user.name }}</p>
@@ -14,7 +14,7 @@
     </div>
     </div>
 
-    <app-conversationhistory [conversationHistory]="conversationHistory"></app-conversationhistory>
+    
    
   </div>
 </div>

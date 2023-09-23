@@ -1,5 +1,5 @@
 .sidebar {
-  width: 82%;
+  
   background-color: #D3D3D3; /* Adjust the background color as needed */
   padding: 20px;
   color: black; /* Text color */
@@ -26,6 +26,7 @@
 .user-details {
   color: #fff; /* Text color inside each user box */
   text-decoration: none !important;
+  
 }
 
 .user-item a {
