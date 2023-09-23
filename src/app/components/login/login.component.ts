@@ -37,7 +37,10 @@ export class LoginComponent implements OnInit{
         // Login successful
         this.toastr.success('Login successful!', 'Success');
         // Store JWT token in local storage
-        localStorage.setItem('token', response.token);
+        localStorage.setItem('token', response.token); 
+        localStorage.setItem('user', JSON.stringify(response));
+
+
         // Redirect to chat route
         // You can use Router to navigate to the chat route
         this.router.navigate(['/chat']);

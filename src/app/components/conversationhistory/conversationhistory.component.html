@@ -1,14 +1,30 @@
-<div class="conversation-container">
-  <!-- User list component (20% of the screen) -->
+<!-- <p>conversationhistory works!</p> -->
 
-  <div class="history-container">
-    <h2>Conversation History</h2>
-    <div class="messages">
-      <div *ngFor="let message of messages" class="message">
-        <p>{{ message.content }}</p>
-        <small>{{ message.timestamp | date: 'medium' }}</small>
-      </div>
+<div class="background">
+    <nav class="chat-navbar">
+    <div class="custom-container">
+        <div class="custom-user-profile">
+            <div class="custom-user-image">
+                <span>{{ clickedUser?.name?.charAt(0) }}</span>
+           </div>
+        </div>
+        <strong style="color: white;">{{ clickedUser.name }}</strong>
     </div>
-    <button *ngIf="hasMore" (click)="fetchConversationHistory()">Load More</button>
+</nav>
+
+<div class="history-container">
+    <div class="messages">
+        <div *ngfor="let message of conversationhistory">
+            <p>{{message.content}}</p>
+            <small>{{message.timestamp | date: 'medium' }}</small>
+        </div>
+    </div>
+</div>
+
+
+<div class="send-chat">
+    <input type="text" placeholder="Type your message..." [(ngModel)]="messageContent" />
+    <button class="send-button" (click)="sendMessage()"></button>
   </div>
+
 </div>

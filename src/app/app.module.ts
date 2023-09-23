@@ -16,6 +16,10 @@ import { ChatComponent } from './components/chat/chat.component';
 import { UserlistComponent } from './components/userlist/userlist.component';
 import { UserService } from './services/user.service';
 import { ConversationhistoryComponent } from './components/conversationhistory/conversationhistory.component';
+import { ConversationService } from './services/conversation.service';
+import { AuthService } from './services/auth.service';
+import { CommonModule } from '@angular/common';
+
 
 @NgModule({
   declarations: [
@@ -27,6 +31,7 @@ import { ConversationhistoryComponent } from './components/conversationhistory/c
     UserlistComponent,
     ConversationhistoryComponent,
    
+   
   ],
   imports: [
     BrowserModule,
@@ -35,9 +40,11 @@ import { ConversationhistoryComponent } from './components/conversationhistory/c
     AppRoutingModule,
     BrowserAnimationsModule,
     ToastrModule.forRoot(),
-    HttpClientModule
+    HttpClientModule,
+    CommonModule,
+    
   ],
-  providers: [UserService],
+  providers: [UserService,ConversationService,AuthService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

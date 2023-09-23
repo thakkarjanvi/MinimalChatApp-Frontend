@@ -11,8 +11,10 @@ import { Router } from '@angular/router';
 })
 export class UserlistComponent implements OnInit{
   users: User[] = [];
-  selectedUser: any = null;
-  constructor(private userService: UserService, private toastr: ToastrService, private router:Router) {}
+  clickedUser:any;
+
+
+  constructor(private userService: UserService, private toastr: ToastrService,private router:Router) {}
 
   ngOnInit(): void {
     this.userService.getUsers().subscribe((data:any) => {
@@ -27,10 +29,11 @@ export class UserlistComponent implements OnInit{
   );
 }
 
-  startChat(user:any){
-    this.selectedUser = user;
-    console.log(this.selectedUser);
-    this.router.navigate(['/chat/user', this.selectedUser.id]);
-  }
+UserClick(user: User): void {
+  this.clickedUser = user;
+  console.log('User ID:', this.clickedUser.id);
 
+  // Navigate to a specific route with the user's ID, assuming you have a route defined for it
+  this.router.navigate(['/chat/user', this.clickedUser.id]);
+}
 }

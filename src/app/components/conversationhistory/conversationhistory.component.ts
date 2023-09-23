@@ -1,20 +1,20 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Message } from 'src/app/models/message.model';
 import { ConversationService } from 'src/app/services/conversation.service';
 import { ToastrService } from 'ngx-toastr';
+import { Message } from 'src/app/models/message.model';
 
 @Component({
   selector: 'app-conversationhistory',
   templateUrl: './conversationhistory.component.html',
   styleUrls: ['./conversationhistory.component.css']
 })
-export class ConversationhistoryComponent implements OnInit{
 
-  userId: string= '';
+
+export class ConversationhistoryComponent implements OnInit {
+  clickedUser: any;
   messages: Message[] = [];
-  loading = false;
-  hasMore = true;
+  messageContent: string = '';
 
   constructor(
     private route: ActivatedRoute,
@@ -23,40 +23,30 @@ export class ConversationhistoryComponent implements OnInit{
   ) {}
 
   ngOnInit(): void {
-    debugger
     this.route.params.subscribe((params) => {
-      this.userId = params['id'];
-      this.fetchConversationHistory();
+      this.clickedUser = params; // Get the user ID from the route parameter
+      this.getConversationHistory(this.clickedUser.id); // Fetch conversation history for the user
     });
   }
 
-  fetchConversationHistory(): void {
-    if (!this.loading && this.hasMore) {
-      this.loading = true;
-
-      this.conversationService.getConversationHistory(this.userId, this.getLastMessageId()).subscribe(
-        (data) => {
-          if (data.length === 0) {
-            this.hasMore = false;
-          } else {
-            this.messages = [...data.reverse(), ...this.messages];
-          }
-          this.loading = false;
-
-          this.toastr.success('Conversation history received', 'Success');
-        },
-        (error) => {
-          console.error('Error fetching conversation history:', error);
-          this.loading = false;
-          this.toastr.error('Error fetching conversation history', 'Error');
+  getConversationHistory(userId: number) {
+    this.messages = [];
+    this.conversationService.getConversationHistory(userId).subscribe(
+      (response: Message[]) => {
+        console.log(response);
+        this.messages = response;
+        this.toastr.success('Conversation history received', 'Success');
+      },
+      (error) => {
+        if (error.error == 'Conversation not found') {
+          this.messages = [];
+          this.toastr.error('Conversation history not found');
         }
-      );
-    }
+      }
+    );
   }
 
-  getLastMessageId(): string | undefined {
-    const lastMessage = this.messages[this.messages.length - 1];
-    return lastMessage ? lastMessage.id : undefined;
+  sendMessage() {
+    // Implement your sendMessage logic here
   }
-
 }
