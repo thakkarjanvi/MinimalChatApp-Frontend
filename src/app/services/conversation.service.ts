@@ -12,14 +12,14 @@ export class ConversationService {
 
   clickedUser: any = null;
   receiverId!: number ;
-  getConversationHistory(userId: number, before?: Date, count: number = 20, sort: string ='asc'): Observable<any[]> {
-    
+  getConversationHistory(userId: any, before?: Date, count: number = 20, sort: string ='asc'): Observable<any[]> {
+    debugger
     const token = localStorage.getItem('token');
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${token}`
     });
     
-    let params = new HttpParams().set('userId', userId.toString())
+    let params = new HttpParams().set('receiverId', userId.toString())
     .set('count', count.toString())
     .set('sort', sort);
 
@@ -27,6 +27,6 @@ export class ConversationService {
       params = params.set('before', before.toISOString());
     }
 
-    return this.http.get<any[]>(`${this.apiUrl}/${userId}`, { params });
+    return this.http.get<any[]>(`${this.apiUrl}`, { params, headers });
   }
 }

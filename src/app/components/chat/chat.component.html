@@ -1,9 +1,9 @@
-<!-- <p>chat works!</p> -->
 <div class="chat">
-      
-
-      <app-userlist></app-userlist>
-      <app-conversationhistory></app-conversationhistory>
-</div>  
+      <div class="user-list">
+        <app-userlist (clickedUser)="UserClick($event)"></app-userlist>
+      </div>
+      <div class="messages">
+        <app-conversationhistory [clickedUserId]="clickedUserId" *ngIf="clickedUserId"></app-conversationhistory>
+      </div>
+    </div>
     
-  

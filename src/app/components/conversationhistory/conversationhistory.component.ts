@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ConversationService } from 'src/app/services/conversation.service';
 import { ToastrService } from 'ngx-toastr';
@@ -12,6 +12,8 @@ import { Message } from 'src/app/models/message.model';
 
 
 export class ConversationhistoryComponent implements OnInit {
+
+  @Input() clickedUserId: any;
   clickedUser: any;
   messages: Message[] = [];
   messageContent: string = '';
@@ -23,18 +25,15 @@ export class ConversationhistoryComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.route.params.subscribe((params) => {
-      this.clickedUser = params; // Get the user ID from the route parameter
-      this.getConversationHistory(this.clickedUser.id); // Fetch conversation history for the user
-    });
+    this.getConversationHistory();
   }
 
-  getConversationHistory(userId: number) {
+  getConversationHistory() {
     this.messages = [];
-    this.conversationService.getConversationHistory(userId).subscribe(
-      (response: Message[]) => {
-        console.log(response);
-        this.messages = response;
+    this.conversationService.getConversationHistory(this.clickedUserId).subscribe(
+      (response: any) => {
+        console.log(response.messages);
+        this.messages = response.messages;
         this.toastr.success('Conversation history received', 'Success');
       },
       (error) => {
