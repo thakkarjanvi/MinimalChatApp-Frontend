@@ -12,7 +12,7 @@ export class ConversationService {
 
   clickedUser: any = null;
   receiverId!: number ;
-  getConversationHistory(userId: any, before?: Date, count: number = 20, sort: string ='asc'): Observable<any[]> {
+  getConversationHistory(userId: any, before?: Date, count: number = 20, sort: string ='desc'): Observable<any[]> {
     debugger
     const token = localStorage.getItem('token');
     const headers = new HttpHeaders({
@@ -29,4 +29,18 @@ export class ConversationService {
 
     return this.http.get<any[]>(`${this.apiUrl}`, { params, headers });
   }
+  sendMessage(receiverId: number, content: string): Observable<any> {
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+  
+    const body = {
+      receiverId: receiverId,
+      content: content
+    };
+  
+    return this.http.post<any>(`${this.apiUrl}`, body, { headers });
+  }
+  
 }
