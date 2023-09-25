@@ -34,6 +34,7 @@ export class ConversationhistoryComponent implements OnInit {
       (response: any) => {
         console.log(response.messages);
         this.messages = response.messages;
+        this.messages = this.messages.reverse();
         this.toastr.success('Conversation history received', 'Success');
       },
       (error) => {
@@ -46,6 +47,23 @@ export class ConversationhistoryComponent implements OnInit {
   }
 
   sendMessage() {
-    // Implement your sendMessage logic here
+    if (!this.messageContent && this.messageContent == '') {
+      return; // Prevent sending empty messages
+    }
+
+    this.conversationService.sendMessage(this.clickedUserId, this.messageContent).subscribe(
+      (response) => {
+        // Handle success, clear the input field, or update your message list
+        this.toastr.success('Message sent successfully!', 'Success');
+        this.messageContent = ''; // Clear the input field after sending
+        // You may want to refresh the conversation history here
+        this.getConversationHistory();
+      },
+      (error) => {
+        // Handle error
+        this.toastr.error('Error sending message', 'Error');
+      }
+    );
   }
+    
 }

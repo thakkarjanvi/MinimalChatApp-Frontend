@@ -1,13 +1,15 @@
 .chat {
     display: flex;
     height: 100vh;
+
   }
   
   .user-list {
     flex: 1; 
     background-color: #D3D3D3; 
-    padding: 20px;
+    padding: 0px;
     color: black;
+    width: 25%;
   }
   
   .messages {

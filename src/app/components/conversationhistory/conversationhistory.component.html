@@ -13,7 +13,7 @@
 </nav>
 
 <div class="history-container">
-    <div *ngFor="let message of messages" [ngClass]="{'message-right': message.senderId === clickedUserId, 'message-left': message.senderId !== clickedUserId}">
+    <div *ngFor="let message of messages" [ngClass]="{'message-left': message.senderId === clickedUserId, 'message-right': message.senderId !== clickedUserId}">
         <p>{{ message.content }}</p>
         <small>{{ message.timestamp | date: 'medium' }}</small>
     </div>
@@ -21,7 +21,7 @@
 
 <div class="send-chat">
     <input type="text" placeholder="Type your message..." [(ngModel)]="messageContent" />
-    <button class="send-button" (click)="sendMessage()"></button>
+    <button class="send-button" (click)="sendMessage()">Send</button>
   </div>
 
 </div>
