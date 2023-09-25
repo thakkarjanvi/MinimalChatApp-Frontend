@@ -10,7 +10,7 @@ body {
     height: 100vh;
     display: flex;
     flex-direction: column;
-    width: 380%;
+    width: 100%; /* Set the width to 100% */
 }
 
 /* Navbar Styles */
@@ -21,6 +21,7 @@ body {
     display: flex;
     align-items: center;
     box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+    width: 90%;
 }
 
 .custom-container {
@@ -49,6 +50,8 @@ body {
     flex: 1;
     overflow-y: scroll;
     padding: 20px;
+    width: 90%;
+    /* margin-left: 30px; */ /* Remove this line to make it 100% width */
 }
 
 .messages {
@@ -83,6 +86,7 @@ body {
     display: flex;
     align-items: center;
     box-shadow: 0px -2px 5px rgba(0, 0, 0, 0.2);
+    width: 90%; /* Set the width to 100% */
 }
 
 .send-chat input[type="text"] {
@@ -105,4 +109,16 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+.message-right {
+    text-align: right;
+}
+
+.message-left {
+    text-align: left;
+}
+
+.container {
+    width: 100%; /* Set the width to 100% */
 }

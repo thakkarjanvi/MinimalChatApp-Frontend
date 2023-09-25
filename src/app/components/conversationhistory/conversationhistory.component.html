@@ -1,26 +1,23 @@
 <!-- <p>conversationhistory works!</p> -->
 
-<div class="background">
+<div class="background container">
     <nav class="chat-navbar">
     <div class="custom-container">
         <div class="custom-user-profile">
             <div class="custom-user-image">
-                <span>{{ clickedUser?.name?.charAt(0) }}</span>
+                <span>T</span>
            </div>
         </div>
-        <strong style="color: white;">{{ clickedUser.name }}</strong>
+        <strong style="color: white;">Test</strong>
     </div>
 </nav>
 
 <div class="history-container">
-    <div class="messages">
-        <div *ngfor="let message of conversationhistory">
-            <p>{{message.content}}</p>
-            <small>{{message.timestamp | date: 'medium' }}</small>
-        </div>
+    <div *ngFor="let message of messages" [ngClass]="{'message-right': message.senderId === clickedUserId, 'message-left': message.senderId !== clickedUserId}">
+        <p>{{ message.content }}</p>
+        <small>{{ message.timestamp | date: 'medium' }}</small>
     </div>
 </div>
-
 
 <div class="send-chat">
     <input type="text" placeholder="Type your message..." [(ngModel)]="messageContent" />

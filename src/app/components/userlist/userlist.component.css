@@ -1,10 +1,11 @@
 .sidebar {
-  
-  background-color: #D3D3D3; /* Adjust the background color as needed */
+  background-color: #D3D3D3;
   padding: 20px;
-  color: black; /* Text color */
+  color: black;
   text-align: center;
-
+  width: 293px;
+  height: 100vh; /* Set the height to 1vh */
+  overflow-y: auto; /* Add a scrollbar when content overflows */
 }
 
 .user-item {
@@ -16,22 +17,19 @@
 }
 
 .user-item.odd {
-  background-color: #007BFF; /* Background color for odd items */
+  background-color: #007BFF;
 }
 
 .user-item.even {
-  background-color: #28A745; /* Background color for even items */
+  background-color: #28A745;
 }
 
 .user-details {
-  color: #fff; /* Text color inside each user box */
+  color: #fff;
   text-decoration: none !important;
-  
 }
 
 .user-item a {
   text-decoration: none;
   color: inherit;
 }
-
-
