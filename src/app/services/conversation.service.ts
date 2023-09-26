@@ -13,7 +13,7 @@ export class ConversationService {
   clickedUser: any = null;
   receiverId!: number ;
   getConversationHistory(userId: any, before?: Date, count: number = 20, sort: string ='desc'): Observable<any[]> {
-    debugger
+    
     const token = localStorage.getItem('token');
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${token}`
@@ -29,6 +29,7 @@ export class ConversationService {
 
     return this.http.get<any[]>(`${this.apiUrl}`, { params, headers });
   }
+
   sendMessage(receiverId: number, content: string): Observable<any> {
     const token = localStorage.getItem('token');
     const headers = new HttpHeaders({
@@ -43,4 +44,28 @@ export class ConversationService {
     return this.http.post<any>(`${this.apiUrl}`, body, { headers });
   }
   
+  editMessage(messageId:number,content:string) :Observable<any>{
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+  
+    const body = {
+      messageId: messageId,
+      content: content
+    };
+  
+    return this.http.put<any>(`${this.apiUrl}/${messageId}`, body, { headers });
+  }
+
+  deleteMessage(messageId: number) :Observable<any> {
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+
+    return this.http.delete<any>(`${this.apiUrl}/${messageId}`, { headers });
+  }
 }
+
+

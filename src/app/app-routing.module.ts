@@ -7,6 +7,8 @@ import { ChatComponent } from './components/chat/chat.component';
 import { AuthGuard } from './guards/auth.guard';
 import { UserlistComponent } from './components/userlist/userlist.component';
 import { ConversationhistoryComponent } from './components/conversationhistory/conversationhistory.component';
+import { RequestloggingComponent } from './components/requestlogging/requestlogging.component';
+import { LogService } from './services/log.service';
 
 const routes: Routes = [
   {path:'', component: HomeComponent},
@@ -16,7 +18,7 @@ const routes: Routes = [
     {path: 'user/:userId', component: ConversationhistoryComponent}
   ],  canActivate: [AuthGuard] },
   
-  
+  {path: 'requestlogging', component: RequestloggingComponent}
 ];
 
 @NgModule({
