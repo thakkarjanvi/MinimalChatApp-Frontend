@@ -19,6 +19,7 @@ import { ConversationhistoryComponent } from './components/conversationhistory/c
 import { ConversationService } from './services/conversation.service';
 import { AuthService } from './services/auth.service';
 import { CommonModule } from '@angular/common';
+import { RequestloggingComponent } from './components/requestlogging/requestlogging.component';
 
 
 @NgModule({
@@ -30,6 +31,7 @@ import { CommonModule } from '@angular/common';
     ChatComponent,
     UserlistComponent,
     ConversationhistoryComponent,
+    RequestloggingComponent,
    
    
   ],

@@ -18,6 +18,15 @@ export class ConversationhistoryComponent implements OnInit {
   messages: Message[] = [];
   messageContent: string = '';
 
+  editMessageVisible = false;
+  editedMessageContent = '';
+
+  deleteConfirmationVisible = false;
+  deleteMessageId: string = '';
+
+  editDeletePopupVisible = false;
+  
+
   constructor(
     private route: ActivatedRoute,
     private conversationService: ConversationService,
@@ -65,5 +74,84 @@ export class ConversationhistoryComponent implements OnInit {
       }
     );
   }
-    
+
+  showContextMenu(event: MouseEvent, message: Message) {
+    event.preventDefault();
+    this.editMessageVisible = false; // Hide edit message editor
+    this.deleteConfirmationVisible = false; // Hide delete confirmation
+    // Set deleteMessageId for deletion
+    this.deleteMessageId = message.id;
+  }
+
+  togglePopup(message: Message) {
+    this.editMessageVisible = !this.editMessageVisible; // Toggle edit pop-up
+    this.deleteConfirmationVisible = false; // Close delete confirmation if open
+    this.editedMessageContent = message.content; // Set content for editing
+    this.deleteMessageId = message.id; // Set message ID for deletion
+  }
+
+  editMessage() {
+    // this.editedMessageContent = message.content;
+    console.log("edit")
+    this.editMessageVisible = true;
+    this.editDeletePopupVisible = true;
+    this.deleteConfirmationVisible = false; // Hide delete confirmation
+  }
+
+  // Method to accept the edited message
+  acceptEdit() {
+    // Check if edited message content is not empty
+    if (this.editedMessageContent && this.editedMessageContent.trim() !== '') {
+      const messageId = Number(this.deleteMessageId);
+      this.conversationService.editMessage(messageId, this.editedMessageContent).subscribe(
+        (response) => {
+          this.toastr.success('Message edited successfully!', 'Success');
+          this.editMessageVisible = false; // Hide edit message editor
+          // this.editedMessageContent = ''; // Clear edited message content
+          this.getConversationHistory(); // Refresh conversation history
+        },
+        (error) => {
+          this.toastr.error('Error editing message', 'Error');
+        }
+      );
+    } else {
+      this.toastr.warning('Edited message cannot be empty', 'Warning');
+    }
+  }
+
+  // Method to cancel the edit
+  cancelEdit() {
+    this.editMessageVisible = false;
+  }
+
+  // Method to show the delete confirmation dialog
+  deleteMessage() {
+    // this.deleteMessageId = message.id;
+    this.deleteConfirmationVisible = true;
+  }
+
+  // Method to delete a message
+  acceptDelete() {
+    const messageId = Number(this.deleteMessageId);
+    this.conversationService.deleteMessage(messageId).subscribe(
+      (response) => {
+        this.toastr.success('Message deleted successfully!', 'Success');
+        this.deleteConfirmationVisible = false; // Hide delete confirmation
+        this.getConversationHistory(); // Refresh conversation history
+      },
+      (error) => {
+        this.toastr.error('Error deleting message', 'Error');
+      }
+    );
+  }
+
+  // Method to cancel the delete
+  cancelDelete() {
+    this.deleteConfirmationVisible = false;
+  }
+
+  cancelPopup() {
+    this.editDeletePopupVisible = false;
+  }
+
 }
