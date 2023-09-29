@@ -1,106 +1,61 @@
-/* Overall page styles */
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
-    margin: 0;
-    padding: 0;
-  }
-  
-  .logs-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 20px;
-    background-color: #fff;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    border-radius: 5px;
-  }
-  
-  /* Header styles */
-  h1 {
-    font-size: 24px;
-    margin: 0 0 20px;
-    color: #333;
-  }
-  
-  /* Filter styles */
-  label {
-    margin-right: 10px;
-    font-weight: bold;
-  }
-  
-  select,
-  input[type="datetime-local"] {
-    padding: 8px;
-    margin-right: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-  }
-  
-  button {
-    padding: 8px 16px;
-    background-color: #333;
-    color: #fff;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-  
-  button:hover {
-    background-color: #555;
-  }
-  
-  /* Table styles */
-  table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
-    border: 1px solid #ddd;
-  }
-  
-  th,
-  td {
-    padding: 12px;
-    text-align: left;
-    border-bottom: 1px solid #ddd;
-  }
-  
-  th {
-    background-color: #f2f2f2;
-  }
-  
-  /* Column toggle button styles */
-  .column-toggle-button {
-    position: fixed;
-    top: 50%;
-    left: -100px; /* Off-screen initially */
-    transform: translateY(-50%);
-    background-color: #333;
-    color: #fff;
-    border: none;
-    border-radius: 0 5px 5px 0;
-    padding: 12px 16px;
-    cursor: pointer;
-    z-index: 1;
-    transition: left 0.3s ease;
-  }
-  
-  .column-toggle-button:hover {
-    background-color: #555;
-  }
-  
-  /* Show/hide column styles */
-  .hide-column {
-    display: none;
-  }
-  
-  /* Responsive styles */
-  @media (max-width: 768px) {
-    .logs-container {
-      padding: 10px;
-    }
-  
-    .column-toggle-button {
-      left: 0; /* Show the button on the side for mobile */
-    }
-  }
-  
+/* request-logs.component.css */
+
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f7f7f7;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.filter-section {
+  margin-bottom: 20px;
+}
+
+.filter-section .row {
+  margin-bottom: 10px;
+}
+
+.filter-section label {
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+.table-section table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.table-section th, .table-section td {
+  border: 1px solid #ddd;
+  padding: 10px;
+  text-align: left;
+}
+
+.table-section th {
+  background-color: #f2f2f2;
+}
+
+/* Apply styles based on the selected columns */
+.showIdColumn .table-section td:nth-child(1),
+.showIpAddressColumn .table-section td:nth-child(2),
+.showRequestBodyColumn .table-section td:nth-child(3),
+.showTimestampColumn .table-section td:nth-child(4),
+.showUsernameColumn .table-section td:nth-child(5) {
+  display: table-cell;
+}
+
+.hideColumn .table-section th:nth-child(1),
+.hideColumn .table-section td:nth-child(1),
+.hideColumn .table-section th:nth-child(2),
+.hideColumn .table-section td:nth-child(2),
+.hideColumn .table-section th:nth-child(3),
+.hideColumn .table-section td:nth-child(3),
+.hideColumn .table-section th:nth-child(4),
+.hideColumn .table-section td:nth-child(4),
+.hideColumn .table-section th:nth-child(5),
+.hideColumn .table-section td:nth-child(5) {
+  display: none;
+}
