@@ -14,17 +14,15 @@ import { Message } from 'src/app/models/message.model';
 export class ConversationhistoryComponent implements OnInit {
 
   @Input() clickedUserId: any;
+  
   clickedUser: any;
   messages: Message[] = [];
   messageContent: string = '';
-
-  editMessageVisible = false;
-  editedMessageContent = '';
-
-  deleteConfirmationVisible = false;
-  deleteMessageId: string = '';
-
-  editDeletePopupVisible = false;
+  selectedMessage!: Message;
+  contextMenuVisible: boolean = false;
+  isEditing: boolean = false;
+  isDeleting: boolean = false;
+  editedMessageContent: string = '';
   
 
   constructor(
@@ -35,6 +33,7 @@ export class ConversationhistoryComponent implements OnInit {
 
   ngOnInit(): void {
     this.getConversationHistory();
+    this.contextMenuVisible = false;
   }
 
   getConversationHistory() {
@@ -44,6 +43,7 @@ export class ConversationhistoryComponent implements OnInit {
         console.log(response.messages);
         this.messages = response.messages;
         this.messages = this.messages.reverse();
+        this.contextMenuVisible = false;
         this.toastr.success('Conversation history received', 'Success');
       },
       (error) => {
@@ -54,6 +54,15 @@ export class ConversationhistoryComponent implements OnInit {
       }
     );
   }
+
+  onContextMenu(event: MouseEvent, message: any) {
+    event.preventDefault();
+    // Store the selected message and show the context menu
+    this.selectedMessage = message;
+    this.contextMenuVisible = true;
+    // Position the context menu at the mouse coordinates
+  }
+
 
   sendMessage() {
     if (!this.messageContent && this.messageContent == '') {
@@ -74,84 +83,53 @@ export class ConversationhistoryComponent implements OnInit {
       }
     );
   }
-
-  showContextMenu(event: MouseEvent, message: Message) {
-    event.preventDefault();
-    this.editMessageVisible = false; // Hide edit message editor
-    this.deleteConfirmationVisible = false; // Hide delete confirmation
-    // Set deleteMessageId for deletion
-    this.deleteMessageId = message.id;
-  }
-
-  togglePopup(message: Message) {
-    this.editMessageVisible = !this.editMessageVisible; // Toggle edit pop-up
-    this.deleteConfirmationVisible = false; // Close delete confirmation if open
-    this.editedMessageContent = message.content; // Set content for editing
-    this.deleteMessageId = message.id; // Set message ID for deletion
-  }
-
+  
+  
   editMessage() {
-    // this.editedMessageContent = message.content;
-    console.log("edit")
-    this.editMessageVisible = true;
-    this.editDeletePopupVisible = true;
-    this.deleteConfirmationVisible = false; // Hide delete confirmation
+    this.contextMenuVisible = false;
+    this.editedMessageContent = this.selectedMessage.content; 
+    this.isEditing = true;
   }
 
-  // Method to accept the edited message
-  acceptEdit() {
-    // Check if edited message content is not empty
-    if (this.editedMessageContent && this.editedMessageContent.trim() !== '') {
-      const messageId = Number(this.deleteMessageId);
-      this.conversationService.editMessage(messageId, this.editedMessageContent).subscribe(
-        (response) => {
-          this.toastr.success('Message edited successfully!', 'Success');
-          this.editMessageVisible = false; // Hide edit message editor
-          // this.editedMessageContent = ''; // Clear edited message content
-          this.getConversationHistory(); // Refresh conversation history
-        },
-        (error) => {
-          this.toastr.error('Error editing message', 'Error');
-        }
-      );
-    } else {
-      this.toastr.warning('Edited message cannot be empty', 'Warning');
-    }
+  acceptEditMessage() {
+    this.isEditing = false;
+    this.conversationService.editMessage(this.selectedMessage.id!, this.editedMessageContent).subscribe(() => {
+      this.getConversationHistory();
+    });
   }
 
-  // Method to cancel the edit
-  cancelEdit() {
-    this.editMessageVisible = false;
+  declineEditMessage() {
+    this.isEditing = false;
   }
 
-  // Method to show the delete confirmation dialog
   deleteMessage() {
-    // this.deleteMessageId = message.id;
-    this.deleteConfirmationVisible = true;
+    this.contextMenuVisible = false;
+    this.isDeleting = true;
   }
 
-  // Method to delete a message
-  acceptDelete() {
-    const messageId = Number(this.deleteMessageId);
-    this.conversationService.deleteMessage(messageId).subscribe(
-      (response) => {
-        this.toastr.success('Message deleted successfully!', 'Success');
-        this.deleteConfirmationVisible = false; // Hide delete confirmation
-        this.getConversationHistory(); // Refresh conversation history
-      },
-      (error) => {
-        this.toastr.error('Error deleting message', 'Error');
-      }
-    );
+  acceptDeleteMessage() {
+    const isConfirmed = window.confirm("Are you sure you want to delete the message?");
+    if (isConfirmed) {
+        this.conversationService.deleteMessage(this.selectedMessage.id).subscribe(
+            () => {
+                this.toastr.success('Message deleted successfully!', 'Success');
+                this.getConversationHistory(); // Refresh the conversation history after deletion
+                this.contextMenuVisible = false;
+            },
+            (error) => {
+                // Handle error if deletion fails
+                this.toastr.error('Error deleting message', 'Error');
+            }
+        );
+    } else {
+        // Handle cancel action if needed
+        this.contextMenuVisible = false;
+    }
+    this.isDeleting = false;
+}
+  declineDeleteMessage() {
+    this.isDeleting = false;
   }
 
-  // Method to cancel the delete
-  cancelDelete() {
-    this.deleteConfirmationVisible = false;
-  }
-
-  cancelPopup() {
-    this.editDeletePopupVisible = false;
-  }
 
 }

@@ -132,55 +132,45 @@ body {
     padding: 10px;
   }
   
-  .delete-confirmation {
-    background-color: white;
-    border: 1px solid #ccc;
-    box-shadow: 0px 0px 5px 0px #888;
-    position: absolute;
-    padding: 10px;
-  }
-
-  /* Add your existing CSS styles here */
-
-/* Pop-up Styles */
-.popup-container {
-    background-color: white;
-    border: 1px solid #ccc;
-    box-shadow: 0px 0px 5px 0px #888;
-    position: absolute;
-    padding: 10px;
-    display: none; /* Initially hide the pop-up */
-    z-index: 1; /* Ensure the pop-up appears above other elements */
-  }
-  
-  .popup-container p {
-    font-size: 16px;
-  }
-  
-  .popup-container textarea {
-    width: 100%;
-    padding: 10px;
-    margin: 10px 0;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-  }
-  
-  .popup-container button {
-    background-color: #25D366;
+  .edit-delete-buttons button {
+    background-color: #4CAF50;
     color: white;
     border: none;
-    border-radius: 5px;
     padding: 10px 20px;
     margin-right: 10px;
+    border-radius: 5px;
     cursor: pointer;
-  }
-  
-  .popup-container .cancel-button {
-    background-color: #ccc;
-  }
-  
-  /* Show the pop-up when editDeletePopupVisible is true */
-  .popup-container.show-popup {
-    display: block;
-  }
+}
+
+/* Styling for the message editor container */
+.message-editor-container {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.message-editor-container input[type="text"] {
+    flex: 1;
+    padding: 8px;
+    margin-right: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+/* Styling for the confirm and cancel buttons inside the message editor container */
+.message-editor-container button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 8px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+/* Styling for the delete confirmation message */
+.message-editor-container span {
+    margin-right: 10px;
+    font-weight: bold;
+    color: red;
+}
   
