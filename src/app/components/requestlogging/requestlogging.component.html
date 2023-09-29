@@ -1,0 +1,68 @@
+<!-- request-logs.component.html -->
+<div class="container">
+  <div class="filter-section">
+    <div class="row">
+      <div class="col-md-3">
+        <label>Start Time:</label>
+        <input type="datetime-local" [(ngModel)]="startTime" (change)="getLogs()"/>
+      </div>
+      <div class="col-md-3">
+        <label>End Time:</label>
+        <input type="datetime-local" [(ngModel)]="endTime" (change)="getLogs()"/>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-3">
+        <label>Timeframe:</label>
+        <select>
+          <option value="5" (click)="getLastLogs(5)">Last 5 mins</option>
+          <option value="10" (click)="getLastLogs(10)">Last 10 mins</option>
+          <option value="30" (click)="getLastLogs(30)">Last 30 mins</option>
+          <option value="custom" (click)="customTime()">Custom</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="column-toggle">
+        <label>Show Columns:</label>
+        <label>
+          <input type="checkbox" [(ngModel)]="showIdColumn" (change)="toggleColumn('id')" /> ID
+        </label>
+        <label>
+          <input type="checkbox" [(ngModel)]="showTimestampColumn" (change)="toggleColumn('timestamp')" /> Timestamp
+        </label>
+        <label>
+          <input type="checkbox" [(ngModel)]="showIpAddressColumn"  (change)="toggleColumn('ipAddress')"/> IP Address
+        </label>
+        <label>
+          <input type="checkbox" [(ngModel)]="showUsernameColumn" (change)="toggleColumn('username')" /> Username
+        </label>
+        <label>
+          <input type="checkbox" [(ngModel)]="showRequestBodyColumn" (change)="toggleColumn('requestBody')" /> Request Body
+        </label>
+      </div>
+  </div>
+
+  <div class="table-section">
+    <table>
+      <thead>
+        <tr>
+          <th *ngIf="showIdColumn">Id</th>
+          <th *ngIf="showIpAddressColumn">IP Address</th>
+          <th *ngIf="showRequestBodyColumn">Request Body</th>
+          <th *ngIf="showTimestampColumn">Timestamp</th>
+          <th *ngIf="showUsernameColumn">Username</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let log of logs">
+          <td *ngIf="showIdColumn">{{ log.Id }}</td>
+          <td *ngIf="showIpAddressColumn">{{ log.IpAddress }}</td>
+          <td *ngIf="showRequestBodyColumn">{{ log.RequestBody }}</td>
+          <td *ngIf="showTimestampColumn">{{ log.Timestamp }}</td>
+          <td *ngIf="showUsernameColumn">{{ log.Username }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

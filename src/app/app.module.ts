@@ -20,6 +20,7 @@ import { ConversationService } from './services/conversation.service';
 import { AuthService } from './services/auth.service';
 import { CommonModule } from '@angular/common';
 import { RequestloggingComponent } from './components/requestlogging/requestlogging.component';
+import { LogService } from './services/log.service';
 
 
 @NgModule({
