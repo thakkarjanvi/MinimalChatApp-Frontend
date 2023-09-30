@@ -5,14 +5,15 @@
     <div class="custom-container">
         <div class="custom-user-profile">
             <div class="custom-user-image">
-                <span>T</span>
+                <span>{{ clickedUserName!.charAt(0).toUpperCase() }}</span>
            </div>
         </div>
-        <strong style="color: white;">Test</strong>
+        <strong style="color: white;">{{ clickedUserName }}</strong>
     </div>
 </nav>
 
-<div class="history-container">
+<div class="history-container"  #userChat (scroll)="onScroll(userChat)">
+    <!-- <div class ="scroll-container" > -->
     <div *ngFor="let message of messages" [ngClass]="{'message-left': message.senderId === clickedUserId, 'message-right': message.senderId !== clickedUserId}" (contextmenu)="onContextMenu($event, message)">
         <p>{{ message.content }}</p>
         <div *ngIf="contextMenuVisible && message.senderId !== clickedUserId && message.content == selectedMessage.content" class="context-menu">
@@ -22,6 +23,7 @@
         
         <small>{{ message.timestamp | date: 'medium' }}</small>
     </div>
+    <!-- </div> -->
 </div>
 
 <div *ngIf="isEditing">

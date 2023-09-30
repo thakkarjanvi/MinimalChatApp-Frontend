@@ -1,9 +1,9 @@
 <div class="chat">
       <div class="user-list">
-        <app-userlist (clickedUser)="UserClick($event)"></app-userlist>
+        <app-userlist (clickedUser)="UserClick($event.userId, $event.name)"></app-userlist>
       </div>
       <div class="messages">
-        <app-conversationhistory [clickedUserId]="clickedUserId" *ngIf="clickedUserId"></app-conversationhistory>
+        <app-conversationhistory [clickedUserId]="clickedUserId" [name]="clickedUserName!" *ngIf="clickedUserId"></app-conversationhistory>
       </div>
     </div>
     

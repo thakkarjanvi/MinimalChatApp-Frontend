@@ -7,26 +7,33 @@ import { HttpHeaders } from '@angular/common/http';
   templateUrl: './requestlogging.component.html',
   styleUrls: ['./requestlogging.component.css']
 })
-export class RequestloggingComponent {
+export class RequestloggingComponent implements OnInit{
 
   logs: any[] = [];
   startTime?: string;
   endTime?: string;
 
   selectedTimeframe!: number; // Ensure this property is defined
-  showIdColumn: boolean = false;
-  showIpAddressColumn: boolean = false;
-  showRequestBodyColumn: boolean = false;
-  showTimestampColumn: boolean = false;
-  showUsernameColumn: boolean = false;
+  showIdColumn: boolean = true;
+  showIpAddressColumn: boolean = true;
+  showRequestBodyColumn: boolean = true;
+  showTimestampColumn: boolean = true;
+  showUsernameColumn: boolean = true;
   authService: any;
 
   constructor(private logService : LogService)  {}
 
+  ngOnInit(): void {
+    this.getLogs();
+  }
   getLogs(){
-    console.log(this.startTime,this.endTime)
-    this.logService.getLogs(this.startTime, this.endTime).subscribe((res)=>{
-      this.logs=res;
+    // debugger
+    // console.log(this.startTime,this.endTime)
+    this.logService.getLogs().subscribe((res : any)=>{
+      console.log("Response",res)
+      // this.logs=Object.values(res);
+      this.logs = res.logs;
+      console.log(this.logs)
 })
   }
 
