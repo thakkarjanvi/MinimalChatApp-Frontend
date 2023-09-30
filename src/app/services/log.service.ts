@@ -11,7 +11,7 @@ export class LogService {
   private apiUrl = 'https://localhost:44353/api/log';
   
   getLogs(startTime?: string, endTime?: string): Observable<any[]> {
-
+// debugger
     const token = localStorage.getItem('token');
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${token}`

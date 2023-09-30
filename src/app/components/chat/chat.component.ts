@@ -8,6 +8,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class ChatComponent implements OnInit {
   clickedUserId: any;
+  clickedUserName:string | null = null;
   
 
   constructor(private route: ActivatedRoute, private router: Router) {}
@@ -19,9 +20,10 @@ export class ChatComponent implements OnInit {
     });
   }
   
-  UserClick(userId: any) {
+  UserClick(userId: any, name:string) {
     this.clickedUserId=userId;
-    console.log("UserId",this.clickedUserId)
+    this.clickedUserName = name;
+    console.log("UserId",this.clickedUserName)
     this.router.navigate(['/chat/user', this.clickedUserId]);
   }
 }

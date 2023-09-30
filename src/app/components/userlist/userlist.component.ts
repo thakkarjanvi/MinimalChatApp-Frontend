@@ -11,7 +11,8 @@ import { Router } from '@angular/router';
 })
 export class UserlistComponent implements OnInit{
 
-  @Output() clickedUser = new EventEmitter<any>();
+  @Output() clickedUser: EventEmitter<{ userId: any; name: string }> = new EventEmitter<{ userId: any; name: string }>();
+
   @Input() users: User[] = [];
   //clickedUser:any;
 
@@ -29,8 +30,8 @@ export class UserlistComponent implements OnInit{
   }
   );
 }
-UserClick(userId: any) {
-  this.clickedUser.emit(userId);
+UserClick(userId: any, name:string) {
+  this.clickedUser.emit({ userId, name });
 }
 
 // UserClick(user: User): void {

@@ -4,7 +4,7 @@
     <div class="row">
       <div class="col-md-3">
         <label>Start Time:</label>
-        <input type="datetime-local" [(ngModel)]="startTime" (change)="getLogs()"/>
+        <input type="datetime-local" [(ngModel)]="startTime" (click)="getLogs()"/>
       </div>
       <div class="col-md-3">
         <label>End Time:</label>
@@ -26,25 +26,25 @@
     <div class="column-toggle">
         <label>Show Columns:</label>
         <label>
-          <input type="checkbox" [(ngModel)]="showIdColumn" (change)="toggleColumn('id')" /> ID
+          <input type="checkbox" [(ngModel)]="showIdColumn" /> ID
         </label>
         <label>
-          <input type="checkbox" [(ngModel)]="showTimestampColumn" (change)="toggleColumn('timestamp')" /> Timestamp
+          <input type="checkbox" [(ngModel)]="showTimestampColumn"  /> Timestamp
         </label>
         <label>
-          <input type="checkbox" [(ngModel)]="showIpAddressColumn"  (change)="toggleColumn('ipAddress')"/> IP Address
+          <input type="checkbox" [(ngModel)]="showIpAddressColumn"  /> IP Address
         </label>
         <label>
-          <input type="checkbox" [(ngModel)]="showUsernameColumn" (change)="toggleColumn('username')" /> Username
+          <input type="checkbox" [(ngModel)]="showUsernameColumn"  /> Username
         </label>
         <label>
-          <input type="checkbox" [(ngModel)]="showRequestBodyColumn" (change)="toggleColumn('requestBody')" /> Request Body
+          <input type="checkbox" [(ngModel)]="showRequestBodyColumn"  /> Request Body
         </label>
       </div>
   </div>
 
   <div class="table-section">
-    <table>
+    <table *ngIf="logs.length > 0">
       <thead>
         <tr>
           <th *ngIf="showIdColumn">Id</th>
@@ -56,13 +56,17 @@
       </thead>
       <tbody>
         <tr *ngFor="let log of logs">
-          <td *ngIf="showIdColumn">{{ log.Id }}</td>
-          <td *ngIf="showIpAddressColumn">{{ log.IpAddress }}</td>
-          <td *ngIf="showRequestBodyColumn">{{ log.RequestBody }}</td>
-          <td *ngIf="showTimestampColumn">{{ log.Timestamp }}</td>
-          <td *ngIf="showUsernameColumn">{{ log.Username }}</td>
+          <td *ngIf="showIdColumn">{{ log.id }}</td>
+          <td *ngIf="showIpAddressColumn">{{ log.ipAddress }}</td>
+          <td *ngIf="showRequestBodyColumn">{{ log.requestBody }}</td>
+          <td *ngIf="showTimestampColumn">{{ log.timestamp }}</td>
+          <td *ngIf="showUsernameColumn">{{ log.username }}</td>
         </tr>
       </tbody>
     </table>
+
+    <div class="no-logs-message" *ngIf="logs.length === 0">
+      No logs found.
+    </div>
   </div>
 </div>

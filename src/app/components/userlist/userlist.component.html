@@ -4,7 +4,7 @@
   <div class="user-list">
     <!-- <h3>User List</h3> -->
     <div *ngFor="let user of users; let even = even; let odd = odd" class="user-item" 
-    [ngClass]="{ 'odd': odd, 'even': even }" (click)="UserClick(user.id)">
+    [ngClass]="{ 'odd': odd, 'even': even }" (click)="UserClick(user.id, user.name)">
     
     <!-- <a [routerLink]="['/chat/user', user.id]"> -->
       <div class="user-details">

@@ -13,7 +13,7 @@ export class ConversationService {
   clickedUser: any = null;
   receiverId!: number ;
   getConversationHistory(userId: any, before?: Date, count: number = 20, sort: string ='desc'): Observable<any[]> {
-    
+    debugger
     const token = localStorage.getItem('token');
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${token}`
