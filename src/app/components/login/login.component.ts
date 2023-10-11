@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, NgZone } from '@angular/core';
 import { AuthService } from 'src/app/services/auth.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { User } from 'src/app/models/user.model';
 import { Router } from '@angular/router';
+import { CredentialResponse, PromptMomentNotification } from 'google-one-tap'
 
 @Component({
   selector: 'app-login',
@@ -16,15 +17,55 @@ export class LoginComponent implements OnInit{
   errorMessage: string = '';
   
 
-  constructor(private authService: AuthService, private fb: FormBuilder,  private toastr: ToastrService, private router:Router) {}
+  constructor(private authService: AuthService, private fb: FormBuilder,  private toastr: ToastrService, private router:Router,  private zone: NgZone) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     // Initialize the loginForm with FormBuilder
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required]],
     });
+
+    // @ts-ignore
+    window.onGoogleLibraryLoad = () => {
+      // @ts-ignore
+      google.accounts.id.initialize({
+        client_id: '93789025494-p83u7qfgrlqdc7kv4knm924knd83vlok.apps.googleusercontent.com',
+        callback: this.credentialResponse.bind(this),
+        auto_select: false,
+        cancel_on_tap_outside: true,
+      });
+      // @ts-ignore
+      google.accounts.id.renderButton(
+        // @ts-ignore
+        document.getElementById('google-button'),
+        { theme: 'outline', size: 'large', width: '100%' }
+      );
+      // @ts-ignore
+      google.accounts.id.prompt((notification: PromptMomentNotification) => {});
+    };
   }
+
+  private credentialResponse(response: CredentialResponse) {
+    this.authService
+      .LoginWithGoogle(response.credential)
+      .subscribe((x: any) => {
+        this.zone.run(() => {
+          if (x.statusCode === 200) {
+            // Registration successful
+        this.toastr.success('Google Login successful!', 'Success');
+        // Redirect to login page or perform other actions
+        this.router.navigate(['/chat']);
+
+            //this.router.navigateByUrl('/login');
+          } else {
+            this.errorMessage = 'Google Login failed. Please try again.';
+            this.toastr.error(this.errorMessage, 'Error');
+          }
+        });
+      });
+  }
+  
 
   onSubmit() {
     if (this.loginForm.valid) {
