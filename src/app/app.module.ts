@@ -20,7 +20,7 @@ import { ConversationService } from './services/conversation.service';
 import { AuthService } from './services/auth.service';
 import { CommonModule } from '@angular/common';
 import { RequestloggingComponent } from './components/requestlogging/requestlogging.component';
-import { LogService } from './services/log.service';
+import { MaterialModule } from './material/material.module';
 
 
 @NgModule({
@@ -45,6 +45,7 @@ import { LogService } from './services/log.service';
     ToastrModule.forRoot(),
     HttpClientModule,
     CommonModule,
+    MaterialModule
     
   ],
   providers: [UserService,ConversationService,AuthService],
