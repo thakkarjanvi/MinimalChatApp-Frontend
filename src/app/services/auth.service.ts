@@ -8,7 +8,7 @@ import { User } from '../models/user.model';
 })
 export class AuthService {
 
-  private apiUrl = 'https://localhost:44353/api';
+  private apiUrl = 'https://localhost:7026/api/User';
 
   constructor(private http: HttpClient) { }
 
@@ -38,10 +38,6 @@ export class AuthService {
   LoginWithGoogle(credentials: string): Observable<any> {
     const header = new HttpHeaders().set('Content-type', 'application/json');
     const url = `${this.apiUrl}/google-Login`;
-    return this.http
-      .post(url, JSON.stringify(credentials), {
-        headers: header,
-        withCredentials: true,
-      })
+    return this.http.post(url, JSON.stringify(credentials), { headers: header, withCredentials: true });
   }
 }

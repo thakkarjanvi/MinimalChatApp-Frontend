@@ -30,7 +30,7 @@ export class LoginComponent implements OnInit{
     window.onGoogleLibraryLoad = () => {
       // @ts-ignore
       google.accounts.id.initialize({
-        client_id: '93789025494-p83u7qfgrlqdc7kv4knm924knd83vlok.apps.googleusercontent.com',
+        client_id: '131259041588-7lrt26av8rp1nm0tf3m6vq0bpaj3b23g.apps.googleusercontent.com',
         callback: this.credentialResponse.bind(this),
         auto_select: false,
         cancel_on_tap_outside: true,
@@ -49,21 +49,22 @@ export class LoginComponent implements OnInit{
   private credentialResponse(response: CredentialResponse) {
     this.authService
       .LoginWithGoogle(response.credential)
-      .subscribe((x: any) => {
-        this.zone.run(() => {
-          if (x.statusCode === 200) {
+      .subscribe(
+        (x: any) => {
+          console.log("a", x);
+          this.zone.run(() => {
             // Registration successful
-        this.toastr.success('Google Login successful!', 'Success');
-        // Redirect to login page or perform other actions
-        this.router.navigate(['/chat']);
-
-            //this.router.navigateByUrl('/login');
-          } else {
-            this.errorMessage = 'Google Login failed. Please try again.';
-            this.toastr.error(this.errorMessage, 'Error');
-          }
-        });
-      });
+            this.toastr.success('Google Login successful!', 'Success');
+            // Redirect to login page or perform other actions
+            this.router.navigate(['/chat']);
+            console.log("hi");
+          });
+        },
+        (error: any) => {
+          console.log(error);
+          // Handle login error if needed
+        }
+      );
   }
   
 
@@ -85,6 +86,8 @@ export class LoginComponent implements OnInit{
         // Redirect to chat route
         // You can use Router to navigate to the chat route
         this.router.navigate(['/chat']);
+        
+        
       },
       (error) => {
         // Handle login failure and display relevant error message

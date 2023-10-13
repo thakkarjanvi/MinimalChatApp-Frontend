@@ -16,7 +16,7 @@ const routes: Routes = [
   {path:'registration', component: RegistrationComponent},
   {path: 'chat', component: ChatComponent, children:[
     {path: 'user/:userId', component: ConversationhistoryComponent}
-  ],  canActivate: [AuthGuard] },
+  ] },
   
   {path: 'requestlogging', component: RequestloggingComponent}
 ];
