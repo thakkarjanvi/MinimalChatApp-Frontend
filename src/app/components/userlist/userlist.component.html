@@ -5,13 +5,17 @@
     <!-- <h3>User List</h3> -->
     <div *ngFor="let user of users; let even = even; let odd = odd" class="user-item" 
     [ngClass]="{ 'odd': odd, 'even': even }" (click)="UserClick(user.id, user.name)">
-    
+   
     <!-- <a [routerLink]="['/chat/user', user.id]"> -->
-      <div class="user-details">
+      <div class="d-flex user-details">
+        <div class="d-flex custom-user-image">
+          <span>{{ user.name.charAt(0).toUpperCase() }}</span>
+
+     </div>
       <p>{{ user.name }}</p>
        <!-- <p>{{ user.id }}</p> -->
 
-      <small>{{ user.email }}</small>
+      <!-- <small>{{ user.email }}</small> -->
     </div>
     </div>
 

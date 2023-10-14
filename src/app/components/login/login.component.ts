@@ -82,7 +82,6 @@ export class LoginComponent implements OnInit{
         localStorage.setItem('token', response.token); 
         localStorage.setItem('user', JSON.stringify(response));
 
-
         // Redirect to chat route
         // You can use Router to navigate to the chat route
         this.router.navigate(['/chat']);
