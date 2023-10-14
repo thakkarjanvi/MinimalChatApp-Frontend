@@ -17,6 +17,7 @@ export class ChatComponent implements OnInit {
     // Subscribe to the route parameter to get the selected userId
     this.route.params.subscribe(params => {
       this.clickedUserId = params['id'];
+  
     });
   }
   
