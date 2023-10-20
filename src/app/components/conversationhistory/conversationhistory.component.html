@@ -12,7 +12,7 @@
     </div>
 </nav>
 
-<div class="history-container"  #userChat (scroll)="onScroll(userChat)">
+<div class="history-container">
     <!-- <div class ="scroll-container" > -->
     <div *ngFor="let message of messages" [ngClass]="{'message-left': message.senderId === clickedUserId, 'message-right': message.senderId !== clickedUserId}" (contextmenu)="onContextMenu($event, message)">
         <p>{{ message.content }}</p>

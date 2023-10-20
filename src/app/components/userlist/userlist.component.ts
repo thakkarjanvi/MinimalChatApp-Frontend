@@ -15,7 +15,7 @@ export class UserlistComponent implements OnInit{
 
   @Input() users: User[] = [];
   //clickedUser:any;
-  loggedInuser : any='' ;
+  //loggedInuser : any='' ;
 
 
   constructor(private userService: UserService, private toastr: ToastrService,private router:Router) {}
@@ -30,8 +30,8 @@ export class UserlistComponent implements OnInit{
       this.toastr.error('Error fetching user list', 'Error');
   }
   );
-  this.loggedInuser=localStorage.getItem("user");
-  console.log(this.loggedInuser.profile)
+  // this.loggedInuser=localStorage.getItem("user");
+  // console.log(this.loggedInuser.profile)
 }
 UserClick(userId: any, name:string): void {
   this.clickedUser.emit({ userId, name });

@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { ConversationService } from 'src/app/services/conversation.service';
 import { ToastrService } from 'ngx-toastr';
 import { Message } from 'src/app/models/message.model';
+import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'app-conversationhistory',
@@ -21,10 +22,12 @@ export class ConversationhistoryComponent implements OnInit {
   messages: Message[] = [];
   messageContent: string = '';
   selectedMessage!: Message;
+  selectedMessageId: number|null= null;
   contextMenuVisible: boolean = false;
   isEditing: boolean = false;
   isDeleting: boolean = false;
   editedMessageContent: string = '';
+  private messageSubject: BehaviorSubject<string> = new BehaviorSubject<string>('');
 
   isLoadingMoreMessages = false;
   @ViewChild('scrollContainer') scrollContainer!: ElementRef;
@@ -37,33 +40,36 @@ export class ConversationhistoryComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-  
-
     this.getConversationHistory();
-    //this.subscribeToSignalRMessages();
+    this.subscribeToSignalRMessages();
     this.contextMenuVisible = false;
     this.clickedUserName = this.name;
+
+    this.conversationService.receiveNewMessage$().subscribe((message: any) => {
+      console.log("Receive", message);
+      
+    });
   }
 
-  // subscribeToSignalRMessages() {
-  //   this.conversationService.messageReceived.subscribe((message: Message) => {
-  //     // Update the UI when a new message is received via SignalR
-  //     this.messages.push(message);
-  //     this.scrollToBottom();
-  //   });
-  // }
+  subscribeToSignalRMessages() {
+    this.conversationService.receiveNewMessage$().subscribe((message: string) => {
+      console.log('Received new message from SignalR:', message);
+ 
+        this.getConversationHistory();
+   
+    });
+  }
 
   getConversationHistory() {
-    debugger
     this.clickedUserName = this.name;
     this.messages = [];
     this.conversationService.getConversationHistory(this.clickedUserId).subscribe(
       (response: any) => {
-        console.log(response.messages);
+        console.log(response);
         this.messages = response.messages;
         this.messages = this.messages.reverse();
         setTimeout(() => {
-          this.scrollToBottom();
+          // this.scrollToBottom();
         });
         this.contextMenuVisible = false;
         this.toastr.success('Conversation history received', 'Success');
@@ -79,7 +85,6 @@ export class ConversationhistoryComponent implements OnInit {
   }
 
   getMoreConversationHistory(userId: string, before: Date) {
-    debugger
     this.isLoadingMoreMessages = true;
     this.conversationService.getConversationHistory(userId, before).subscribe({
       next: (res) => {
@@ -93,18 +98,18 @@ export class ConversationhistoryComponent implements OnInit {
     });
   }
 
-  onScroll(userChat: HTMLElement) {
-    const container = this.scrollContainer.nativeElement;
-    const scrollPosition = container.scrollTop;
-    const isNearTop = scrollPosition < 20;
-    console.log("Scroll")
+  // onScroll(userChat: HTMLElement) {
+  //   const container = this.scrollContainer.nativeElement;
+  //   const scrollPosition = container.scrollTop;
+  //   const isNearTop = scrollPosition < 20;
+  //   console.log("Scroll")
 
-    if (isNearTop && !this.isLoadingMoreMessages) {
-      const oldestMessageTimestamp = this.messages[0].timestamp;
-      alert("fg");
-      this.getMoreConversationHistory(this.clickedUserId, new Date(oldestMessageTimestamp));
-    }
-  }
+  //   if (isNearTop && !this.isLoadingMoreMessages) {
+  //     const oldestMessageTimestamp = this.messages[0].timestamp;
+  //     alert("fg");
+  //     this.getMoreConversationHistory(this.clickedUserId, new Date(oldestMessageTimestamp));
+  //   }
+  // }
 
 
   // scrollToBottom() {
@@ -125,6 +130,8 @@ export class ConversationhistoryComponent implements OnInit {
     event.preventDefault();
     // Store the selected message and show the context menu
     this.selectedMessage = message;
+    this.selectedMessageId = message.messageId;
+    console.log(message.messageId)
     this.contextMenuVisible = true;
     // Position the context menu at the mouse coordinates
   }
@@ -132,15 +139,13 @@ export class ConversationhistoryComponent implements OnInit {
   sendMessageSignalR() {
     if (!this.messageContent || this.messageContent === '') {
       return; // Prevent sending empty messages
-    }
-  
+    } 
     const message = {
       receiverId: this.clickedUserId,
       content: this.messageContent
     };
   
     // Send message via SignalR
-    this.conversationService.sendMessageSignalR(message);
   
     // Handle UI logic (clear input field, etc.)
     this.toastr.success('Message sent successfully!', 'Success');
@@ -174,15 +179,13 @@ export class ConversationhistoryComponent implements OnInit {
   }
 
   sendMessage() {
-    debugger
     if (!this.messageContent && this.messageContent == '') {
       return; // Prevent sending empty messages
     }
 
     this.conversationService.sendMessage(this.clickedUserId, this.messageContent).subscribe(
       (response) => {
-
-        console.log(response);
+        this.conversationService.sendMessageSignalR(this.messageContent);
         this.messages.push(response);
          // Send message via SignalR
     // this.conversationService.sendMessageSignalR(message);
@@ -202,13 +205,18 @@ export class ConversationhistoryComponent implements OnInit {
   
   editMessage() {
     this.contextMenuVisible = false;
+    
     this.editedMessageContent = this.selectedMessage.content; 
     this.isEditing = true;
   }
 
   acceptEditMessage() {
     this.isEditing = false;
-    this.conversationService.editMessage(this.selectedMessage.id!, this.editedMessageContent).subscribe(() => {
+    console.log("hi"+this.selectedMessage.id);
+
+    this.conversationService.editMessage(this.selectedMessageId!, this.editedMessageContent).subscribe(() => {
+      this.editMessageSignalR();
+      this.toastr.success('Message edited successfully!', 'Success');
       this.getConversationHistory();
     });
   }
@@ -225,8 +233,9 @@ export class ConversationhistoryComponent implements OnInit {
   acceptDeleteMessage() {
     const isConfirmed = window.confirm("Are you sure you want to delete the message?");
     if (isConfirmed) {
-        this.conversationService.deleteMessage(this.selectedMessage.id).subscribe(
+        this.conversationService.deleteMessage(this.selectedMessageId!).subscribe(
             () => {
+              this.deleteMessageSignalR();
                 this.toastr.success('Message deleted successfully!', 'Success');
                 this.getConversationHistory(); // Refresh the conversation history after deletion
                 this.contextMenuVisible = false;
@@ -245,6 +254,4 @@ export class ConversationhistoryComponent implements OnInit {
   declineDeleteMessage() {
     this.isDeleting = false;
   }
-
-
 }
