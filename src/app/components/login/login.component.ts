@@ -53,6 +53,10 @@ export class LoginComponent implements OnInit{
         (x: any) => {
           console.log("a", x);
           this.zone.run(() => {
+
+            localStorage.setItem('token', x.jwtToken); 
+            localStorage.setItem('user', JSON.stringify(x.profile.name));
+
             // Registration successful
             this.toastr.success('Google Login successful!', 'Success');
             // Redirect to login page or perform other actions
