@@ -1,4 +1,4 @@
-import { Component, OnInit, EventEmitter, Output, Input } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { UserService } from 'src/app/services/user.service';
 import { User } from 'src/app/models/user.model';
 import { ToastrService } from 'ngx-toastr';
@@ -9,9 +9,10 @@ import { Router } from '@angular/router';
   templateUrl: './userlist.component.html',
   styleUrls: ['./userlist.component.css']
 })
-export class UserlistComponent implements OnInit{
+export class UserlistComponent implements OnInit, OnChanges {
 
-  @Output() clickedUser: EventEmitter<{ userId: any; name: string }> = new EventEmitter<{ userId: any; name: string }>();
+  @Output() clickedUser = new EventEmitter<{ userId: any; name: string }>();
+  selectedUserId: string | null = null;
 
   @Input() users: User[] = [];
   //clickedUser:any;
@@ -34,15 +35,14 @@ export class UserlistComponent implements OnInit{
   // console.log(this.loggedInuser.profile)
 }
 UserClick(userId: any, name:string): void {
+    this.selectedUserId = userId;
   this.clickedUser.emit({ userId, name });
-  //this.router.navigate(['/chat/user', userId]);
 }
 
-// UserClick(user: User): void {
-//   this.clickedUser = user;
-//   console.log('User ID:', this.clickedUser.id);
-
-//   // Navigate to a specific route with the user's ID, assuming you have a route defined for it
-//   this.router.navigate(['/chat/user', this.clickedUser.id]);
-// }
+ngOnChanges(changes: SimpleChanges) {
+  // Reset the selectedUserId when users change
+  if (changes['users']) { // Access 'users' using square brackets
+    this.selectedUserId = null;
+  }
+}
 }

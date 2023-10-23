@@ -112,6 +112,18 @@ export class ConversationService {
     });
     return this.http.delete<any>(`${this.apiUrl}/${messageId}`, { headers });
   }
+
+  searchMessages(query: string): Observable<any[]> {
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+
+    let params = new HttpParams()
+      .set('query', query);
+
+    return this.http.get<any[]>(`${this.apiUrl}/conversation/search`, { params, headers });
+  }
 }
 
 
