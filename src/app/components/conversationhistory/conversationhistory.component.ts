@@ -49,6 +49,8 @@ export class ConversationhistoryComponent implements OnInit {
       console.log("Receive", message);
       
     });
+    console.log("Id" , this.clickedUserId);
+    console.log("Name" , this.name);
   }
 
   subscribeToSignalRMessages() {
