@@ -3,8 +3,8 @@
   padding: 20px;
   color: black;
   text-align: center;
-  width: 293px;
-  height: 100vh; /* Set the height to 1vh */
+  width: 310px;
+  height: 80vh; /* Set the height to 1vh */
   overflow-y: auto; /* Add a scrollbar when content overflows */
 }
 
@@ -31,6 +31,9 @@
 .user-details {
   color: #fff;
   text-decoration: none !important;
+  display: flex;
+  align-items: center;
+
 }
 
 .user-item a {
@@ -41,13 +44,14 @@
 .custom-user-image {
   width: 40px;
   height: 40px;
-  background-color: #007BFF; /* Background color for the circle */
+  background-color: black; /* Background color for the circle */
   color: #fff; /* Text color */
   border-radius: 50%; /* Makes the element a circle */
   display: flex;
   align-items: center;
   justify-content: center;
-  font-weight: bold;
+  /* text-align: center; */
+  /* font-weight: bold; */
   font-size: 18px;
   text-transform: uppercase; /* Convert text to uppercase */
   margin-right: 10px; /* Adjust as needed */
