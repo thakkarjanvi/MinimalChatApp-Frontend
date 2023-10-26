@@ -11,6 +11,7 @@ import { Message } from 'src/app/models/message.model';
 export class ChatComponent implements OnInit {
   clickedUserId: any;
   clickedUserName:string = '';
+  //showUserlist: boolean = true;
   
   searchQuery: string = '';
   searchResults: Message[] = [];
@@ -28,12 +29,15 @@ export class ChatComponent implements OnInit {
 
   search() : void {
     if (this.searchQuery.trim() !== '') {
+      //this.showUserlist = true;
       this.conversationService.searchMessages(this.searchQuery).subscribe(
-        results => {
+        (results:any) => {
           console.log(results);
           
           this.showSearchResults = true;
-          this.searchResults = results;
+          console.log(results);
+          
+          this.searchResults = results.messages;
         },
         error => {
           console.error(error);
@@ -48,6 +52,7 @@ export class ChatComponent implements OnInit {
 
   closeSearchResults() {
     this.showSearchResults = false;
+    //this.showUserlist = true;
     // Additional logic if needed when closing the search results
   }
   

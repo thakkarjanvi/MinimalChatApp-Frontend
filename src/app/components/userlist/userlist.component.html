@@ -7,12 +7,12 @@
      (click)="UserClick(user.id, user.name)" [ngClass]="{ 'odd': odd, 'even': even, 'selected-user': user.id === selectedUserId }">
    
     <!-- <a [routerLink]="['/chat/user', user.id]"> -->
-      <div class="d-flex user-details">
-        <div class="d-flex custom-user-image">
-          <span>{{ user.name.charAt(0).toUpperCase() }}</span>
-
-     </div>
-      <p>{{ user.name }}</p>
+      <div class=" user-details">
+        <div class="custom-user-image">
+          <div>{{ user.name.charAt(0).toUpperCase() }}</div>
+        </div>
+        <div>{{ user.name }}</div>
+      
        <!-- <p>{{ user.id }}</p> -->
 
       <!-- <small>{{ user.email }}</small> -->

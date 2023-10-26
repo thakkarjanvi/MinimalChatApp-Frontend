@@ -1,23 +1,13 @@
-
-
 .chat {
     display: flex;
-    height: 100vh;
+    height: 50vh;
 
-  }
-  
-  .user-list {
-    flex: 1; 
-    background-color: #D3D3D3; 
-    padding: 0px;
-    color: black;
-    width: 25%;
   }
   
   .messages {
     flex: 3; 
     background-color: #f5f5f5; 
-    margin-left: 45px;
+    height: 87vh;
   }
   
   /* Import Google Fonts */
@@ -34,11 +24,11 @@ body {
 .search {
     position: relative;
     box-shadow: 0 0 40px rgba(51, 51, 51, 0.1);
-    margin-bottom: 20px; /* Added margin at the bottom */
+   
 }
 
 .search input {
-    height: 60px;
+    padding: 15px;
     text-indent: 25px;
     border: 2px solid #d6d4d4;
     width: calc(100% - 140px); /* Adjusted width for the input */
@@ -59,13 +49,59 @@ body {
 
 .search button {
     position: absolute;
-    top: 5px;
+    top : 0;
     right: 5px;
-    height: 50px;
-    width: 110px;
-    background: blue;
+    width: 90px;
+    padding: 15px;
+    background: #007BFF;
     color: white; /* Added text color */
     border: none; /* Removed border */
     border-radius: 5px; /* Added border-radius for a rounded button */
     cursor: pointer;
+}
+
+/* Add these styles to your component's CSS file */
+
+/* Style for the search results container */
+.search-results {
+  padding: 10px;
+  border: none;
+  background-color: #f9f9f9;
+  position: relative;
+  min-height: 80vh; 
+  overflow-y: auto;
+  width: 310px;
+}
+
+/* Style for individual search result items */
+.search-result-item {
+  margin-bottom: 10px;
+  padding: 10px;
+  border: 1px solid #ddd;
+  background-color: #fff;
+}
+
+/* Style for the message content */
+.search-result-content {
+  font-size: 16px;
+  color: #333;
+}
+
+/* Style for the user name or other relevant information in the search result */
+.search-result-user {
+  font-size: 14px;
+  color: #777;
+}
+
+/* Style for the timestamp or any additional information in the search result */
+.search-result-info {
+  font-size: 12px;
+  color: #999;
+}
+
+.close-icon {
+  position: absolute;
+  top: 10px;
+  right: 0px;
+  cursor: pointer;
 }

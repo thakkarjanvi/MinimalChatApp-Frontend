@@ -11,7 +11,6 @@ import { BehaviorSubject } from 'rxjs';
   styleUrls: ['./conversationhistory.component.css']
 })
 
-
 export class ConversationhistoryComponent implements OnInit {
 
   @Input() clickedUserId: any;
@@ -69,7 +68,7 @@ export class ConversationhistoryComponent implements OnInit {
       (response: any) => {
         console.log(response);
         this.messages = response.messages;
-        this.messages = this.messages.reverse();
+        //this.messages = this.messages.reverse();
         setTimeout(() => {
           // this.scrollToBottom();
         });
@@ -152,6 +151,9 @@ export class ConversationhistoryComponent implements OnInit {
     // Handle UI logic (clear input field, etc.)
     this.toastr.success('Message sent successfully!', 'Success');
     this.messageContent = ''; // Clear the input field after sending
+    setTimeout(() => {
+      this.scrollToBottom();
+    });
   }
   
   editMessageSignalR() {
@@ -196,6 +198,9 @@ export class ConversationhistoryComponent implements OnInit {
         this.messageContent = ''; // Clear the input field after sending
         // You may want to refresh the conversation history here
         this.getConversationHistory();
+        setTimeout(() => {
+          this.scrollToBottom();
+        });
       },
       (error) => {
         // Handle error
