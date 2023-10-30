@@ -1,10 +1,10 @@
-import { Component, OnInit, Input, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, ElementRef, Output, EventEmitter } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ConversationService } from 'src/app/services/conversation.service';
 import { ToastrService } from 'ngx-toastr';
 import { Message } from 'src/app/models/message.model';
 import { BehaviorSubject } from 'rxjs';
-
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-conversationhistory',
   templateUrl: './conversationhistory.component.html',
@@ -15,6 +15,8 @@ export class ConversationhistoryComponent implements OnInit {
 
   @Input() clickedUserId: any;
   @Input() name: string = '';
+  @Output() replyClicked: EventEmitter<boolean> = new EventEmitter<boolean>();
+  @Output() messagePass: EventEmitter<string> = new EventEmitter<string>();
   
   clickedUser: any;
   clickedUserName:string | null = null;
@@ -26,16 +28,20 @@ export class ConversationhistoryComponent implements OnInit {
   isEditing: boolean = false;
   isDeleting: boolean = false;
   editedMessageContent: string = '';
+  showThreadComponent: boolean = false;
+  
   private messageSubject: BehaviorSubject<string> = new BehaviorSubject<string>('');
 
   isLoadingMoreMessages = false;
   @ViewChild('scrollContainer') scrollContainer!: ElementRef;
-  
+
+   
 
   constructor(
     private route: ActivatedRoute,
     private conversationService: ConversationService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -43,7 +49,6 @@ export class ConversationhistoryComponent implements OnInit {
     this.subscribeToSignalRMessages();
     this.contextMenuVisible = false;
     this.clickedUserName = this.name;
-
     this.conversationService.receiveNewMessage$().subscribe((message: any) => {
       console.log("Receive", message);
       
@@ -54,10 +59,8 @@ export class ConversationhistoryComponent implements OnInit {
 
   subscribeToSignalRMessages() {
     this.conversationService.receiveNewMessage$().subscribe((message: string) => {
-      console.log('Received new message from SignalR:', message);
- 
+      console.log('Received new message from SignalR:', message); 
         this.getConversationHistory();
-   
     });
   }
 
@@ -261,4 +264,32 @@ export class ConversationhistoryComponent implements OnInit {
   declineDeleteMessage() {
     this.isDeleting = false;
   }
+
+showReplyButton(message: Message) {
+  message.showReplyButton = true;
+}
+
+hideReplyButton(message: Message) {
+  message.showReplyButton = false;
+}
+
+openThreadComponent(message: any) {
+  if (message.showReplyButton) {
+    this.selectedMessage = message;
+    let id = message.messageId;
+    this.showThreadComponent = true;
+    this.messagePass.emit(message.content);
+    this.replyClicked.emit(true);
+    this.router.navigate(['chat/thread', id]);
+  // Navigate to the thread component and pass the selected message data
+  //this.route.navigate(['/thread'], { state: { message: this.selectedMessage } });
+  
+  // Alternatively, you can emit an event and handle navigation in the parent component.
+  // For example:
+  // this.replyMessage.emit(this.selectedMessage);
+}
+else {
+  this.showThreadComponent = false;
+}
+}
 }

@@ -24,8 +24,13 @@
 
     <div class="messages">
       <app-conversationhistory [clickedUserId]="clickedUserId" [name]="clickedUserName"
-        *ngIf="clickedUserId"></app-conversationhistory>
+        *ngIf="clickedUserId" (replyClicked)="handleReplyClicked($event)" (messagePass)="getContent($event)"></app-conversationhistory>
+    </div>
 
+    <div>
+      <app-thread *ngIf="showThreadComponent" [selectedMessage]="selectedMessage"> 
+        <router-outlet></router-outlet>
+      </app-thread>
     </div>
   </div>
 </div>

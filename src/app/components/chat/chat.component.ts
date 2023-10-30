@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ConversationService } from 'src/app/services/conversation.service';
 import { Message } from 'src/app/models/message.model';
@@ -12,10 +12,14 @@ export class ChatComponent implements OnInit {
   clickedUserId: any;
   clickedUserName:string = '';
   //showUserlist: boolean = true;
+  showThreadComponent: boolean = false;
+  selectedMessage:string| null = null;
+ 
   
   searchQuery: string = '';
   searchResults: Message[] = [];
   showSearchResults: boolean = false;
+  isReplyClicked: boolean = false;
 
   constructor(private route: ActivatedRoute, private router: Router, private conversationService: ConversationService) {}
 
@@ -60,5 +64,15 @@ export class ChatComponent implements OnInit {
     this.clickedUserId=userId;
     this.clickedUserName = name;
     this.router.navigate(['/chat/user', this.clickedUserId]);
+  }
+
+  handleReplyClicked(event: any) {
+    console.log('Reply button clicked:', event);
+    this.showThreadComponent = true;
+  }
+
+  getContent(event: any) {
+    console.log('Hello', event);
+    this.selectedMessage = event;
   }
 }

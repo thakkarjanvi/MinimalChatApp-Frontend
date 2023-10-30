@@ -9,6 +9,7 @@ import { UserlistComponent } from './components/userlist/userlist.component';
 import { ConversationhistoryComponent } from './components/conversationhistory/conversationhistory.component';
 import { RequestloggingComponent } from './components/requestlogging/requestlogging.component';
 import { LogService } from './services/log.service';
+import { ThreadComponent } from './components/thread/thread.component';
 
 const routes: Routes = [
   {path:'', component: HomeComponent},
@@ -16,9 +17,9 @@ const routes: Routes = [
   {path:'registration', component: RegistrationComponent},
   {path: 'chat', component: ChatComponent, children:[
     { path: '', component: UserlistComponent },
-    {path: 'user/:userId', component: ConversationhistoryComponent}
+    {path: 'user/:userId', component: ConversationhistoryComponent},
+    { path: 'thread/:id', component: ThreadComponent }
   ] },
-  
   {path: 'requestlogging', component: RequestloggingComponent}
 ];
 
