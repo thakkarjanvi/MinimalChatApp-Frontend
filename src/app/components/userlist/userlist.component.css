@@ -4,7 +4,7 @@
   color: black;
   text-align: center;
   width: 310px;
-  height: 80vh; /* Set the height to 1vh */
+  height: 100vh; /* Set the height to 1vh */
   overflow-y: auto; /* Add a scrollbar when content overflows */
 }
 

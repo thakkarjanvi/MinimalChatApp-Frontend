@@ -18,6 +18,7 @@ import { AuthService } from './services/auth.service';
 import { CommonModule } from '@angular/common';
 import { RequestloggingComponent } from './components/requestlogging/requestlogging.component';
 import { MaterialModule } from './material/material.module';
+import { ThreadComponent } from './components/thread/thread.component';
 
 
 @NgModule({
@@ -30,6 +31,7 @@ import { MaterialModule } from './material/material.module';
     UserlistComponent,
     ConversationhistoryComponent,
     RequestloggingComponent,
+    ThreadComponent,
    
    
   ],

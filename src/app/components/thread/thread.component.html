@@ -1,0 +1,36 @@
+<!-- thread.component.html -->
+<div class="container">
+  <div class="thread-header">
+    <h1>Thread</h1>
+  </div>
+  <div class="thread-content">
+    <!-- Your thread content goes here -->
+    <div *ngIf="selectedMessage">
+      <div>{{ selectedMessage }}</div>
+      <!-- Display other message details as needed -->
+    </div>
+    <div class="close-icon" (click)="closeThreadMessages()">
+      <i class="fa fa-times-circle text-danger" aria-hidden="true"></i>
+    </div>
+    <div *ngIf="contextMenuVisible && message.senderId !== clickedUserId && message.content == selectedMessage.content" class="context-menu">
+      <button (click)="editMessage()">Edit</button>
+      <button (click)="deleteMessage()">Delete</button>
+  </div>
+  </div>
+
+  <div *ngIf="isEditing">
+    <input type="text" [(ngModel)]="editedMessageContent">
+    <button (click)="acceptEditMessage()">Accept</button>
+    <button (click)="declineEditMessage()">Decline</button>
+</div>
+
+<div *ngIf="isDeleting">
+    <button (click)="acceptDeleteMessage()">Accept</button>
+    <button (click)="declineDeleteMessage()">Decline</button>
+</div>
+
+<div class="send-chat">
+    <input type="text" placeholder="Type your message..." [(ngModel)]="messageContent"/>
+    <button class="send-button" (click)="sendMessage()">Send</button>
+  </div>
+</div>

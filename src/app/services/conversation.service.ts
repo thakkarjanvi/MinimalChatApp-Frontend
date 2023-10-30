@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { HttpTransportType, HubConnectionBuilder, LogLevel } from '@microsoft/signalr';
 import * as signalR from '@microsoft/signalr';
+import { query } from '@angular/animations';
 
 
 @Injectable({
@@ -124,6 +125,18 @@ export class ConversationService {
 
     return this.http.get<any[]>(`${this.apiUrl}/conversation/search`, { params, headers });
   }
+
+  getMessageById(threadId: number): Observable<any> {
+    debugger
+    const url = `${this.apiUrl}/${threadId}`;
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+
+    return this.http.get<any>(url,{headers});
+  }
+
 }
 
 

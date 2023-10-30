@@ -14,16 +14,17 @@
 
 <div class="history-container">
     <!-- <div class ="scroll-container" > -->
-    <div *ngFor="let message of messages" [ngClass]="{'message-left': message.senderId === clickedUserId, 'message-right': message.senderId !== clickedUserId}" (contextmenu)="onContextMenu($event, message)">
-        <p>{{ message.content }}</p>
+    <div *ngFor="let message of messages" 
+    [ngClass]="{'message-left': message.senderId === clickedUserId, 'message-right': message.senderId !== clickedUserId}"
+    (mouseenter)="showReplyButton(message)" (mouseleave)="hideReplyButton(message)"  (contextmenu)="onContextMenu($event, message)">
+        <div>{{ message.content }}</div>
+        <small>{{ message.timestamp | date: 'medium' }}</small>
+        <button *ngIf="message.showReplyButton" (click)="openThreadComponent(message)">Reply in Thread</button>
         <div *ngIf="contextMenuVisible && message.senderId !== clickedUserId && message.content == selectedMessage.content" class="context-menu">
             <button (click)="editMessage()">Edit</button>
             <button (click)="deleteMessage()">Delete</button>
         </div>
-        
-        <small>{{ message.timestamp | date: 'medium' }}</small>
     </div>
-    <!-- </div> -->
 </div>
 
 <div *ngIf="isEditing">
@@ -38,7 +39,7 @@
 </div>
 
 <div class="send-chat">
-    <input type="text" placeholder="Type your message..." [(ngModel)]="messageContent" />
+    <input type="text" placeholder="Type your message..." [(ngModel)]="messageContent"/>
     <button class="send-button" (click)="sendMessage()">Send</button>
   </div>
 

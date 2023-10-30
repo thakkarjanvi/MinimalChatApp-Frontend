@@ -45,16 +45,6 @@ body {
     color: white;
 }
 
-/* Chat History Styles */
-.history-container {
-    flex: 1;
-    overflow-y: scroll;
-    padding: 20px;
-    width: 95%;
-    height: 50vh;
-    /* margin-left: 30px; */ /* Remove this line to make it 100% width */
-}
-
 .messages {
     display: flex;
     flex-direction: column;
@@ -113,9 +103,6 @@ body {
     justify-content: center;
 }
 
-.message-right {
-    text-align: right;
-}
 
 .message-left {
     text-align: left;
@@ -174,4 +161,55 @@ body {
     font-weight: bold;
     color: red;
 }
-  
+
+/* Chat History Styles */
+.history-container {
+    flex: 1;
+    overflow-y: scroll;
+    padding: 20px;
+    height: 50vh;
+    display: flex;
+    flex-direction: column; /* Make the container a column */
+}
+
+/* Style for sender messages */
+.message-left {
+    background-color: #4CAF50; /* Green background for sender messages */
+    color: white; /* White text for sender messages */
+    border-radius: 10px; /* Optional: Add rounded corners to sender messages */
+    padding: 10px; /* Optional: Add padding to sender messages */
+    margin-bottom: 10px; /* Optional: Add margin between sender messages */
+    display: inline-block; /* Set display to inline-block */
+    width: fit-content;
+}
+
+.message-right {
+    background-color: #007BFF; /* Blue background for receiver messages */
+    color: white; /* White text for receiver messages */
+    border-radius: 10px; /* Optional: Add rounded corners to receiver messages */
+    padding: 10px; /* Optional: Add padding to receiver messages */
+    margin-bottom: 10px; /* Optional: Add margin between receiver messages */
+    display: inline-block; /* Set display to inline-block */
+    text-align: right;
+    width: fit-content;
+    margin-left: auto; /* Push the element to the right side of the parent container */
+}
+
+
+/* Style for context menu */
+.context-menu {
+    background-color: #f1f1f1; /* Light gray background for context menu */
+    border: 1px solid #ccc; /* Border for context menu */
+    padding: 5px; /* Padding for context menu items */
+}
+
+/* Style for reply button */
+button {
+    background-color: black; 
+    color: white; /* White text for buttons */
+    border: none; /* Remove button border */
+    padding: 8px 16px; /* Add padding to buttons */
+    cursor: pointer; /* Change cursor to pointer on hover */
+    margin-top: 5px; /* Optional: Add margin between buttons */
+}
+
