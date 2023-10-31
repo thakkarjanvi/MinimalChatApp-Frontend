@@ -60,6 +60,7 @@ export class ConversationService {
     this.hubConnection.invoke('DeleteMessage', messageId);
   }
 
+  
   clickedUser: any = null;
   receiverId!: number ;
   getConversationHistory(userId: any, before?: Date, count: number = 20, sort: string ='desc'): Observable<any[]> {
@@ -127,7 +128,6 @@ export class ConversationService {
   }
 
   getMessageById(threadId: number): Observable<any> {
-    debugger
     const url = `${this.apiUrl}/${threadId}`;
     const token = localStorage.getItem('token');
     const headers = new HttpHeaders({
