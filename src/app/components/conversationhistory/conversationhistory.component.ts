@@ -30,12 +30,9 @@ export class ConversationhistoryComponent implements OnInit {
   editedMessageContent: string = '';
   showThreadComponent: boolean = false;
   
-  private messageSubject: BehaviorSubject<string> = new BehaviorSubject<string>('');
-
   isLoadingMoreMessages = false;
   @ViewChild('scrollContainer') scrollContainer!: ElementRef;
 
-   
 
   constructor(
     private route: ActivatedRoute,
@@ -261,6 +258,7 @@ export class ConversationhistoryComponent implements OnInit {
     }
     this.isDeleting = false;
 }
+
   declineDeleteMessage() {
     this.isDeleting = false;
   }
