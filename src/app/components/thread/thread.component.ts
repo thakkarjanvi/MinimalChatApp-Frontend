@@ -166,6 +166,12 @@ getThreadMessages() {
     this.isEditing = false;
   }
 
+  editMessage(message: any) {
+    this.isEditing = true;
+    this.editedMessageContent = message.content;
+    this.selectedMessageId = message.messageId;
+  }
+
   acceptEditMessage() {
     this.isEditing = false;
     this.conversationService.editMessage(this.selectedMessageId!, this.editedMessageContent).subscribe(() => {
@@ -196,6 +202,11 @@ getThreadMessages() {
     this.isDeleting = false;
   }
 
+  deleteMessage(messageId: number) {
+    this.isDeleting = true;
+    this.selectedMessageId = messageId;
+  }
+
   acceptDeleteMessage() {
     const isConfirmed = window.confirm("Are you sure you want to delete the message?");
     if (isConfirmed) {
@@ -220,16 +231,6 @@ getThreadMessages() {
 
   declineDeleteMessage() {
     this.isDeleting = false;
-  }
-
-  editMessage(message: any) {
-    this.isEditing = true;
-    this.editedMessageContent = message.content;
-    // Handle edit logic here
-  }
-  deleteMessage(messageId: number) {
-    this.isDeleting = true;
-    // Handle delete logic here, using messageId to identify the message
   }
 
 }
