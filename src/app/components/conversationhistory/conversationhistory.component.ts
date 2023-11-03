@@ -89,10 +89,10 @@ export class ConversationhistoryComponent implements OnInit {
     
     this.isLoadingMoreMessages = true;
     const before = this.messages[0].timestamp
-    alert("wdjer")
+    // alert("wdjer")
     this.conversationService.getConversationHistory(this.clickedUserId, before).subscribe({
       next: (res) => {
-        const olderMessages = res.reverse(); // Reverse to maintain chronological order
+        //const olderMessages = res.reverse(); // Reverse to maintain chronological order
         //this.messages = olderMessages.concat(this.messages);
         console.log("tgyhuy8hnuij",res);
         
@@ -294,7 +294,6 @@ openThreadComponent(message: Message) {
     this.showThreadComponent = true;
     console.log(`conv ${JSON.stringify(message)}`);
 
-    
     this.messagePass.emit(message);
     
     this.replyClicked.emit(true);

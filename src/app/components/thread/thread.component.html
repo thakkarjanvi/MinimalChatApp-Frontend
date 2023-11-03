@@ -13,7 +13,7 @@
     <div class="close-icon" (click)="closeThreadMessages()">
       <i class="fa fa-times-circle text-danger" aria-hidden="true"></i>
     </div>
-    <div class="message-container" *ngFor="let message of messages">
+    <div class="message-container" *ngFor="let message of threadMessages">
       <div class="message-content">{{ message.content }}</div>
       <div class="message-timestamp">{{ message.timestamp | date: 'medium' }}</div>
       <div class="button-container">
@@ -22,6 +22,16 @@
       </div>
     </div>
     
+    <div *ngIf="isEditing">
+      <input type="text" [(ngModel)]="editedMessageContent">
+      <button (click)="acceptEditMessage()">Accept</button>
+      <button (click)="declineEditMessage()">Decline</button>
+  </div>
+  
+  <div *ngIf="isDeleting">
+      <button (click)="acceptDeleteMessage()">Accept</button>
+      <button (click)="declineDeleteMessage()">Decline</button>
+  </div>
     
   <div class="send-chat">
     <input type="text" placeholder="Type your message..." [(ngModel)]="messageContent" />
