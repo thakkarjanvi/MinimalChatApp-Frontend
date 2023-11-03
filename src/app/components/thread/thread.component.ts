@@ -17,7 +17,7 @@ export class ThreadComponent implements OnInit{
   @Input() selectedMessage:Message | null = null;
   @Input() receiverId:string | undefined = undefined;
   
-  messages: any[] = [];
+  threadMessages: any[] = [];
   selectedMessageId!: number;
   contextMenuVisible: boolean = false;
   isEditing: boolean = false;
@@ -35,8 +35,8 @@ export class ThreadComponent implements OnInit{
       if (messageId) {
         this.messageId = messageId;            
         this.conversationService.getThreadMessages(messageId).subscribe((message: any) => {         
-          this.messages = message;
-          console.log(this.messages);        
+          this.threadMessages = message;
+          console.log(this.threadMessages);        
         });
       }
     });
@@ -56,8 +56,8 @@ export class ThreadComponent implements OnInit{
       .sendMessageInThread(message)
       .subscribe(
         (response) => {
-          this.conversationService.sendMessageSignalR(this.messageContent);
-          this.messages.push(response);
+          // this.conversationService.sendMessageSignalR(this.messageContent);
+          this.threadMessages.push(response);
           // Send message via SignalR
           // this.conversationService.sendMessageSignalR(message);
           
@@ -66,6 +66,9 @@ export class ThreadComponent implements OnInit{
           this.messageContent = ''; // Clear the input field after sending
           // You may want to refresh the conversation history here
           this.getThreadMessages();
+          console.log("thread message : ",this.threadMessages);
+          
+          this.conversationService.sendMessageSignalR(this.messageContent);
           setTimeout(() => {
             this.scrollToBottom();
           });
@@ -106,33 +109,34 @@ export class ThreadComponent implements OnInit{
     // Position the context menu at the mouse coordinates
   }
 
-  getThreadMessages() {
-    //this.clickedUserName = this.name;
-    this.messages = [];
-    this.conversationService
-      .getThreadMessages(this.selectedMessage?.messageId!)
-      .subscribe(
-        (response: any) => {
-          console.log(response);
-          this.messages = response.messages;
-          //this.messages = this.messages.reverse();
-          setTimeout(() => {
-            // this.scrollToBottom();
-          });
-          this.contextMenuVisible = false;
-          this.toastr.success('Conversation history received', 'Success');
-        },
-        (error) => {
-          if (error.error == 'Conversation not found') {
-            this.messages = [];
-            this.toastr.error('Conversation history not found');
-          }
+getThreadMessages() {
+  this.conversationService
+    .getThreadMessages(this.selectedMessage?.messageId!)
+    .subscribe(
+      (response: any) => {
+        console.log(response);
+        // Assign the response to threadMessages inside the subscription block
+        this.threadMessages = response;
+        console.log("get thread message array: ", this.threadMessages);
+        
+        setTimeout(() => {
+          this.scrollToBottom();
+        });
+
+        this.contextMenuVisible = false;
+        this.toastr.success('Conversation history received', 'Success');
+      },
+      (error) => {
+        if (error.error == 'Conversation not found') {
+          this.threadMessages = []; // Handle empty response if conversation is not found
+          this.toastr.error('Conversation history not found');
         }
-      );
-  }
+      }
+    );
+}
 
   scrollToBottom() {
-    const messageContainer = document.querySelector('.history-container');
+    const messageContainer = document.querySelector('.container');
     if (messageContainer) {
       messageContainer.scrollTop = messageContainer.scrollHeight;
     }
@@ -147,6 +151,7 @@ export class ThreadComponent implements OnInit{
   //   this.editedMessageContent = this.selectedThreadMessage.content; 
   //   this.isEditing = true;
   // }
+
 
   editMessageSignalR() {
     // Check if a message is selected for editing
@@ -190,6 +195,7 @@ export class ThreadComponent implements OnInit{
     // Handle UI logic or any other actions after deleting the message
     this.isDeleting = false;
   }
+
   acceptDeleteMessage() {
     const isConfirmed = window.confirm("Are you sure you want to delete the message?");
     if (isConfirmed) {
