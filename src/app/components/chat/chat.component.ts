@@ -13,12 +13,13 @@ export class ChatComponent implements OnInit {
   clickedUserName: string = '';
   //showUserlist: boolean = true;
   showThreadComponent: boolean = false;
-  selectedMessage: string | null = null;
+  selectedMessage:Message | null = null;
 
   searchQuery: string = '';
   searchResults: Message[] = [];
   showSearchResults: boolean = false;
   isReplyClicked: boolean = false;
+  receiverId:string | undefined = undefined;
 
   constructor(
     private route: ActivatedRoute,
@@ -29,7 +30,7 @@ export class ChatComponent implements OnInit {
   ngOnInit() {
     // Subscribe to the route parameter to get the selected userId
     this.route.params.subscribe((params) => {
-      this.clickedUserId = params['id'];
+      this.clickedUserId = params['id'];     
     });
   }
 
@@ -64,6 +65,7 @@ export class ChatComponent implements OnInit {
 
   UserClick(userId: any, name: string) {
     this.clickedUserId = userId;
+    this.receiverId = this.clickedUserId;   
     this.clickedUserName = name;
     this.router.navigate(['/chat/user', this.clickedUserId]);
   }
@@ -76,5 +78,7 @@ export class ChatComponent implements OnInit {
   getContent(event: any) {
     console.log('Hello', event);
     this.selectedMessage = event;
+    console.log("chat component"+this.selectedMessage!.id);
+    
   }
 }
