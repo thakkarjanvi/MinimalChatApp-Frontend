@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ViewChild, ElementRef, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, ElementRef, Output, EventEmitter, HostListener } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ConversationService } from 'src/app/services/conversation.service';
 import { ToastrService } from 'ngx-toastr';
@@ -16,7 +16,7 @@ export class ConversationhistoryComponent implements OnInit {
   @Input() clickedUserId: any;
   @Input() name: string = '';
   @Output() replyClicked: EventEmitter<boolean> = new EventEmitter<boolean>();
-  @Output() messagePass: EventEmitter<string> = new EventEmitter<string>();
+  @Output() messagePass: EventEmitter<Message> = new EventEmitter<Message>();
   
   clickedUser: any;
   clickedUserName:string | null = null;
@@ -70,7 +70,7 @@ export class ConversationhistoryComponent implements OnInit {
         this.messages = response.messages;
         //this.messages = this.messages.reverse();
         setTimeout(() => {
-          // this.scrollToBottom();
+          this.scrollToBottom();
         });
         this.contextMenuVisible = false;
         this.toastr.success('Conversation history received', 'Success');
@@ -85,12 +85,17 @@ export class ConversationhistoryComponent implements OnInit {
     );
   }
 
-  getMoreConversationHistory(userId: string, before: Date) {
+  getMoreConversationHistory() {
+    
     this.isLoadingMoreMessages = true;
-    this.conversationService.getConversationHistory(userId, before).subscribe({
+    const before = this.messages[0].timestamp
+    alert("wdjer")
+    this.conversationService.getConversationHistory(this.clickedUserId, before).subscribe({
       next: (res) => {
-        //const olderMessages = res.data.reverse(); // Reverse to maintain chronological order
+        const olderMessages = res.reverse(); // Reverse to maintain chronological order
         //this.messages = olderMessages.concat(this.messages);
+        console.log("tgyhuy8hnuij",res);
+        
         this.isLoadingMoreMessages = false;
       },
       error: (err) => {
@@ -111,6 +116,17 @@ export class ConversationhistoryComponent implements OnInit {
   //     this.getMoreConversationHistory(this.clickedUserId, new Date(oldestMessageTimestamp));
   //   }
   // }
+
+  @HostListener('scroll', ['$event.target'])
+  onScroll(userChat: HTMLElement) {
+    console.log(typeof userChat.scrollTop, 'Scroll event triggered');
+
+    if (userChat.scrollTop === 0) {
+      console.log('Scroll to the top');
+      this.getMoreConversationHistory()
+    }
+  }
+
 
 
   // scrollToBottom() {
@@ -271,12 +287,16 @@ hideReplyButton(message: Message) {
   message.showReplyButton = false;
 }
 
-openThreadComponent(message: any) {
+openThreadComponent(message: Message) {
   if (message.showReplyButton) {
-    this.selectedMessage = message;
+    this.selectedMessage = message;   
     let id = message.messageId;
     this.showThreadComponent = true;
-    this.messagePass.emit(message.content);
+    console.log(`conv ${JSON.stringify(message)}`);
+
+    
+    this.messagePass.emit(message);
+    
     this.replyClicked.emit(true);
     this.router.navigate(['chat/thread', id]);
   // Navigate to the thread component and pass the selected message data

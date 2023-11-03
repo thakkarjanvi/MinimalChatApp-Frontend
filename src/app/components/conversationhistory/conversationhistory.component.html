@@ -12,11 +12,12 @@
     </div>
 </nav>
 
-<div class="history-container">
-    <!-- <div class ="scroll-container" > -->
+<div class="history-container" #userChat (scroll)="onScroll(userChat)">
+    <!-- <div class="user-chat" *ngIf="messagesFound" #userChat (scroll)="onScroll(userChat)"> -->
+
     <div *ngFor="let message of messages" 
     [ngClass]="{'message-left': message.senderId === clickedUserId, 'message-right': message.senderId !== clickedUserId}"
-    (mouseenter)="showReplyButton(message)" (mouseleave)="hideReplyButton(message)"  (contextmenu)="onContextMenu($event, message)">
+    (mouseenter)="showReplyButton(message)" (mouseleave)="hideReplyButton(message)" (contextmenu)="onContextMenu($event, message)">
         <div>{{ message.content }}</div>
         <small>{{ message.timestamp | date: 'medium' }}</small>
         <button *ngIf="message.showReplyButton" (click)="openThreadComponent(message)">Reply in Thread</button>
@@ -25,6 +26,7 @@
             <button (click)="deleteMessage()">Delete</button>
         </div>
     </div>
+    <!-- </div> -->
 </div>
 
 <div *ngIf="isEditing">

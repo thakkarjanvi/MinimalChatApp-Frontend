@@ -4,6 +4,8 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { HttpTransportType, HubConnectionBuilder, LogLevel } from '@microsoft/signalr';
 import * as signalR from '@microsoft/signalr';
 import { query } from '@angular/animations';
+import { SendMessage } from '../models/send-message';
+import { Message } from '../models/message.model';
 
 
 @Injectable({
@@ -63,7 +65,7 @@ export class ConversationService {
   
   clickedUser: any = null;
   receiverId!: number ;
-  getConversationHistory(userId: any, before?: Date, count: number = 20, sort: string ='desc'): Observable<any[]> {
+  getConversationHistory(userId: any, before?: Date, sort: string ='desc'): Observable<any[]> {
     const token = localStorage.getItem('token');
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${token}`
@@ -71,7 +73,7 @@ export class ConversationService {
     
     let params = new HttpParams()
     .set('UserId', userId.toString())
-    .set('count', count.toString())
+    // .set('count', count.toString())
     .set('sort', sort);
 
     if (before) {
@@ -92,6 +94,14 @@ export class ConversationService {
       content: content
     };
     return this.http.post<any>(`${this.apiUrl}`, body, { headers });
+  }
+
+  sendMessageInThread(message: SendMessage): Observable<any> {
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    return this.http.post<any>(`${this.apiUrl}`, message, { headers });
   }
   
   editMessage(messageId:number,content:string) :Observable<any>{
@@ -135,6 +145,16 @@ export class ConversationService {
     });
 
     return this.http.get<any>(url,{headers});
+  }
+
+  getThreadMessages(threadId: number): Observable<any[]> {
+    const url = `${this.apiUrl}/${threadId}`;
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+
+    return this.http.get<any[]>(url, {headers});
   }
 
 }

@@ -6,16 +6,25 @@
   <div class="thread-content">
     <!-- Your thread content goes here -->
     <div *ngIf="selectedMessage">
-      <div>{{ selectedMessage }}</div>
+      <div>{{ selectedMessage.content }}</div>
       <!-- <small>{{ message.timestamp | date: 'medium' }}</small> -->
       <!-- Display other message details as needed -->
     </div>
     <div class="close-icon" (click)="closeThreadMessages()">
       <i class="fa fa-times-circle text-danger" aria-hidden="true"></i>
     </div>
+    <div class="message-container" *ngFor="let message of messages">
+      <div class="message-content">{{ message.content }}</div>
+      <div class="message-timestamp">{{ message.timestamp | date: 'medium' }}</div>
+      <div class="button-container">
+        <button class="edit-button" (click)="editMessage(message)">Edit</button>
+        <button class="delete-button" (click)="deleteMessage(message.messageId)">Delete</button>
+      </div>
+    </div>
+    
     
   <div class="send-chat">
-    <input type="text" placeholder="Type your message..." [(ngModel)]="messageContent"/>
+    <input type="text" placeholder="Type your message..." [(ngModel)]="messageContent" />
     <button class="send-button" (click)="sendMessage()">Send</button>
   </div>
 

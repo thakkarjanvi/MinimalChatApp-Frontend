@@ -28,7 +28,7 @@
     </div>
 
     <div>
-      <app-thread *ngIf="showThreadComponent" [selectedMessage]="selectedMessage"> 
+      <app-thread *ngIf="showThreadComponent" [selectedMessage]="selectedMessage" [receiverId]="receiverId"> 
         <router-outlet></router-outlet>
       </app-thread>
     </div>
