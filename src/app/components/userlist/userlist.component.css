@@ -56,3 +56,31 @@
   text-transform: uppercase; /* Convert text to uppercase */
   margin-right: 10px; /* Adjust as needed */
 }
+
+button {
+  padding: 10px 20px;
+  font-size: 18px;
+  margin: 0 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  background-color: black; 
+  color: #fff; /* White text color */
+}
+
+.group-item {
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  text-align: left;
+  text-decoration: none;
+}
+
+.group-item.odd {
+  background-color: #007BFF;
+}
+
+.group-item.even {
+  background-color: #28A745;
+}
+

@@ -156,6 +156,27 @@ export class ConversationService {
 
     return this.http.get<any[]>(url, {headers});
   }
+  
+  getUserChat(
+    UserId: string,
+    Before: Date | null,
+    count: number | null,
+    sortOrder: number | null
+  ): Observable<any[]> {
+    const url = `${this.apiUrl}messages`;
+    let params = new HttpParams().set('UserId', UserId);
+    if (Before !== null) {
+      params = params.set('before', Before.toString());
+    }
+    if (count !== null) {
+      params = params.set('count', count.toString());
+    }
+    if (sortOrder !== null) {
+      params = params.set('sortOrder', sortOrder.toString());
+    }
+    return this.http.get<any[]>(url, { params });
+  }
+
 
 }
 

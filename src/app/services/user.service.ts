@@ -21,6 +21,14 @@ export class UserService {
       'Authorization': `Bearer ${token}`
     });
 
+    let isOnlyUserList: Boolean = false;
+    const url = `${this.apiUrl}users?isOnlyUserList=${isOnlyUserList}`;
+
     return this.http.get<User[]>(this.apiUrl, { headers });
+
+    
   }
+  
+
+
 }
