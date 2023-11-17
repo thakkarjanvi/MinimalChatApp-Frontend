@@ -5,6 +5,15 @@ import { ToastrService } from 'ngx-toastr';
 import { Message } from 'src/app/models/message.model';
 import { BehaviorSubject } from 'rxjs';
 import { Router } from '@angular/router';
+//import { AddMembersBoxComponent } from '../add-members-box/add-members-box.component';
+import { MatDialog } from '@angular/material/dialog';
+import { User } from 'src/app/models/user.model';
+import { GroupService } from 'src/app/services/group.service';
+import { RemoveMembersBoxComponent } from '../remove-members-box/remove-members-box.component';
+import { EditGroupNameComponent } from '../edit-group-name/edit-group-name.component';
+import { UserAdminBoxComponent } from '../user-admin-box/user-admin-box.component';
+import { GroupMembers } from 'src/app/models/GroupMember';
+import { FormsModule } from '@angular/forms';
 @Component({
   selector: 'app-conversationhistory',
   templateUrl: './conversationhistory.component.html',
@@ -32,13 +41,23 @@ export class ConversationhistoryComponent implements OnInit {
   
   isLoadingMoreMessages = false;
   @ViewChild('scrollContainer') scrollContainer!: ElementRef;
-
-
+  groupmembers: any;
+  selectedUserName: any;
+  @Input() userId: string = '';
+  isGroup: boolean = false;
+  userChat: { timestamp: Date }[] = [];
+  groupUsers: any;
+  currentUserId: string = '';
+  isReceiverIdNull: boolean = false;
+  isCurrentUserAdminInGroup: boolean = false;
+  topTimestamp: Date = new Date();
   constructor(
     private route: ActivatedRoute,
     private conversationService: ConversationService,
     private toastr: ToastrService,
-    private router: Router
+    private router: Router,
+    private dialog: MatDialog,
+    private groupService : GroupService
   ) {}
 
   ngOnInit(): void {
@@ -309,4 +328,196 @@ else {
   this.showThreadComponent = false;
 }
 }
+
+// addMembers() {
+//   // Open the dialog and pass data to it (e.g., groupUsers)
+//   const dialogRef = this.dialog.open(AddMembersBoxComponent, {
+//     data: {
+//       groupUsers: this.groupmembers,
+//     },
+//   });
+
+//   // Handle dialog actions as needed
+//   dialogRef.afterClosed().subscribe(
+//     (result: User[]) => {
+//       const userIds: string[] = result.map((user) => user.id);
+//       this.groupService
+//         .addMembersToGroup(this.userId, userIds)
+//         .subscribe((response) => {
+//           this.fetchChatwithGroupMembers();
+//           this.toastr.success('Success');
+//         });
+//     },
+//     (error) => {
+//       this.toastr.error('Error');
+//     }
+//   );
+// }
+
+addMembers() {
+  
+}
+
+/**
+ * Fetches chat data for the current user with group members and updates related properties.
+ * - Retrieves user chat messages.
+ * - Populates the group members and group user names.
+ * - Determines if the current user is an admin in the group.
+ * - Sets the top timestamp for chat messages.
+ */
+private fetchChatwithGroupMembers() {
+  this.conversationService.getUserChat(this.userId, null, null, null).subscribe(
+    (messages: any) => {
+      console.log(messages);
+
+      if (messages) {
+        if (
+          messages.message == 'No more conversation found.' &&
+          messages.data != null
+        ) {
+          this.isGroup = true;
+          this.userChat = [];
+          this.groupmembers = messages.data;
+          this.groupUsers = this.groupmembers.map(
+            (member: GroupMembers) => member.userName
+          );
+        } else {
+          console.log('test1' + messages.data);
+
+          this.userChat = messages.data || [];
+          this.isGroup = false;
+        }
+        if (messages.data[0].users != null) {
+          this.groupmembers = messages.data[0].users;
+          this.groupUsers = this.groupmembers.map(
+            (member: GroupMembers) => member.userName
+          );
+        }
+        const filteredMembers = this.groupmembers.filter(
+          (member: GroupMembers) => member.userId === this.currentUserId
+        );
+        this.isCurrentUserAdminInGroup = filteredMembers.some(
+          (member: GroupMembers) => member.isAdmin
+        );
+        this.topTimestamp =
+          this.userChat.length > 0 ? this.userChat[0].timestamp : new Date();
+      } else {
+        console.log('value not getting');
+      }
+    },
+    (error) => {
+      console.log(error);
+      this.isGroup = false;
+    }
+  );
+  this.scrollToBottom();
+}
+
+/**
+ * Opens a confirmation dialog to remove a member from the group.
+ * Upon confirmation, sends a request to the groupChatService to remove the specified member from the group.
+ * If successful, triggers a chat data update by calling `fetchChatwithGroupMembers`.
+ * Handles errors by displaying an error notification using `toasterService`.
+ */
+removeMember() {
+  const dialogRef = this.dialog.open(RemoveMembersBoxComponent, {
+    data: {
+      groupUsers: this.groupmembers,
+    },
+  });
+
+  dialogRef.afterClosed().subscribe(
+    (memberId) => {
+      this.groupService
+        .removeMemberFromGroup(this.userId, memberId)
+        .subscribe((result: any) => {
+          this.fetchChatwithGroupMembers();
+        });
+    },
+    (error) => {
+      this.toastr.error('Error while removing members from the group:');
+    }
+  );
+}
+
+/**
+ * Opens a dialog to edit the group name and updates it if a new name is provided.
+ * @returns void
+ */
+editGroupName() {
+  console.log(this.selectedUserName);
+
+  const dialogRef = this.dialog.open(EditGroupNameComponent, {
+    data: {
+      groupname: this.selectedUserName,
+    },
+  });
+  dialogRef.afterClosed().subscribe(
+    (name) => {
+      if (name != undefined && name != '')
+        this.groupService
+          .updateGroupName(this.userId, name)
+          .subscribe((result: any) => {
+            this.selectedUserName = name;
+            this.fetchChatwithGroupMembers();
+          });
+      this.toastr.success('Group name updated successfully');
+    },
+    (error) => {
+      this.toastr.error('Error while removing member from the group');
+    }
+  );
+}
+
+/**
+ * Initiates a confirmation dialog to delete the group. Performs group deletion if confirmed.
+ * @returns void
+ */
+deleteGroup() {
+  const confirmDelete = confirm("Are you sure you want to delete the group?");
+
+  if (confirmDelete) {
+    this.groupService.deleteGroup(this.userId).subscribe(
+      (data) => {
+        console.log(data);
+        // Handle success, if needed
+      },
+      (error) => {
+        console.error('Error deleting group:', error);
+        // Handle error, if needed
+      }
+    );
+    location.reload();
+  } else {
+    console.log('Delete operation canceled.');
+  }
+}
+
+
+/**
+ * Opens a dialog to make a group member an admin within the group.
+ * @returns void
+ */
+makeMemberAdmin() {
+  const dialogRef = this.dialog.open(UserAdminBoxComponent, {
+    data: {
+      groupUsers: this.groupmembers.filter((member: { isAdmin: any; }) => !member.isAdmin),
+    },
+  });
+
+  dialogRef.afterClosed().subscribe(
+    (user) => {
+      this.groupService
+        .makeUserAdmin(this.userId, user.userId)
+        .subscribe((result: any) => {
+          this.fetchChatwithGroupMembers();
+        });
+      this.toastr.success('${user.userName} is now Admin');
+    },
+    (error) => {
+      this.toastr.error('Error while making member admin:');
+    }
+  );
+}
+
 }

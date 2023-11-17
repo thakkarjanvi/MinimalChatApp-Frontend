@@ -3,11 +3,19 @@ import { UserService } from 'src/app/services/user.service';
 import { User } from 'src/app/models/user.model';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
+import { FormGroup } from '@angular/forms';
+import { GroupService } from 'src/app/services/group.service';
+import { AuthService } from 'src/app/services/auth.service';
+import { HttpHeaders } from '@angular/common/http';
+import { MatDialog } from '@angular/material/dialog';
+import { CreateGroupDialogComponent } from '../create-group-dialog/create-group-dialog.component';
+import { Group } from 'src/app/models/Group';
+
 
 @Component({
   selector: 'app-userlist',
   templateUrl: './userlist.component.html',
-  styleUrls: ['./userlist.component.css']
+  styleUrls: ['./userlist.component.css'] 
 })
 export class UserlistComponent implements OnInit, OnChanges {
 
@@ -15,14 +23,18 @@ export class UserlistComponent implements OnInit, OnChanges {
   selectedUserId: string | null = null;
 
   @Input() users: User[] = [];
+  @Input() groups: Group[] = [];
+  
   //clickedUser:any;
   //loggedInuser : any='' ;
 
 
-  constructor(private userService: UserService, private toastr: ToastrService,private router:Router) {}
 
-  ngOnInit(): void {
+  constructor(private userService: UserService,private authService: AuthService,private dialog: MatDialog, private toastr: ToastrService,private router:Router, private groupService: GroupService) {}
+
+   ngOnInit(): void {
     this.userService.getUsers().subscribe((data:any) => {
+      console.log(data.users)
       this.users = data.users;
       this.toastr.success('User list fetched successfully!', 'Success');
     },
@@ -30,6 +42,16 @@ export class UserlistComponent implements OnInit, OnChanges {
       console.log('Error fetching user list:', error);
       this.toastr.error('Error fetching user list', 'Error');
   }
+  );
+  this.groupService.getAllGroups().subscribe((data:any) => 
+     {
+    console.log(data)
+      this.groups = data; // Assuming your API response contains an array of groups
+      this.toastr.success('Group fetched successfully!', 'Success');
+    },
+    (error) => {
+      console.error('Error fetching groups:', error);
+    }
   );
   // this.loggedInuser=localStorage.getItem("user");
   // console.log(this.loggedInuser.profile)
@@ -45,4 +67,73 @@ ngOnChanges(changes: SimpleChanges) {
     this.selectedUserId = null;
   }
 }
+
+// getAllUsers() {
+//   // Fetch all users
+//   this.userService.getUsers().subscribe(
+//     (response: any) => {
+//       if (response.statusCode === 200) {
+//         this.users = response.data;
+       
+//         this.users.forEach(() => {
+          
+//         });
+//       } else {
+//         this.toastr.error('failed to fetch users');
+//       }
+//     },
+//     (error) => {
+//       console.error('Failed to fetch users:', error);
+//       this.toastr.error('Failed to fetch users');
+//     }
+//   );
+
+
+// }
+
+
+// loadGroups() {
+//   this.groupService.getAllGroups().subscribe(
+//     (response: any) => {
+//     console.log(response)
+//       this.groups = response; // Assuming your API response contains an array of groups
+//     },
+//     (error) => {
+//       console.error('Error fetching groups:', error);
+//     }
+//   );
+// }
+
+createGroup() {
+  const usersWithoutGroup = this.users.filter((user) => user.email !== null);
+  const dialogRef = this.dialog.open(CreateGroupDialogComponent, {
+    width: '400px',
+    data: {
+      users: usersWithoutGroup,
+    },
+  });
+
+  dialogRef.afterClosed().subscribe((result: any) => {
+    if (result) {
+      // Handle the result from the dialog (group creation)
+      console.log(result);
+      // Call your service or perform other actions based on the result
+      const { groupName, selectedUsers } = result;
+      this.groupService.createGroup(groupName, selectedUsers).subscribe(
+        (response) => {
+          console.log(response);
+          this.userService.getUsers();
+          this.toastr.success('Group created successfully');
+        },
+
+        (error) => {
+          console.error('Error creating group:', error);
+          this.toastr.error('Failed to create a group');
+        }
+      );
+    }
+  });
+}
+
+
 }

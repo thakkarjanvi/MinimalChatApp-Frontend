@@ -19,6 +19,15 @@ import { CommonModule } from '@angular/common';
 import { RequestloggingComponent } from './components/requestlogging/requestlogging.component';
 import { MaterialModule } from './material/material.module';
 import { ThreadComponent } from './components/thread/thread.component';
+import { CreateGroupDialogComponent } from './components/create-group-dialog/create-group-dialog.component';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatMenuModule } from '@angular/material/menu';
+import { RemoveMembersBoxComponent } from './components/remove-members-box/remove-members-box.component';
+import { UserAdminBoxComponent } from './components/user-admin-box/user-admin-box.component';
+import { EditGroupNameComponent } from './components/edit-group-name/edit-group-name.component';
+
 
 
 @NgModule({
@@ -32,6 +41,10 @@ import { ThreadComponent } from './components/thread/thread.component';
     ConversationhistoryComponent,
     RequestloggingComponent,
     ThreadComponent,
+    CreateGroupDialogComponent,
+    RemoveMembersBoxComponent,
+    UserAdminBoxComponent,
+    EditGroupNameComponent,
    
    
   ],
@@ -44,8 +57,11 @@ import { ThreadComponent } from './components/thread/thread.component';
     ToastrModule.forRoot(),
     HttpClientModule,
     CommonModule,
-    MaterialModule
-    
+    MaterialModule,
+    MatDialogModule,
+    MatRadioModule,
+    MatCheckboxModule, 
+    MatMenuModule 
   ],
   providers: [UserService,ConversationService,AuthService],
   bootstrap: [AppComponent]
