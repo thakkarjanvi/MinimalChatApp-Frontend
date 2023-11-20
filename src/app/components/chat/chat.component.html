@@ -1,0 +1,36 @@
+<div class="container">
+  <div class="row d-flex justify-content-center align-items-center">
+    <div class="search">
+      <input type="text" class="form-control" placeholder="Search Here" [(ngModel)]="searchQuery"
+        (keydown.enter)="search()">
+      <button class="btn btn-primary" (click)="search()">Search</button>
+    </div>
+  </div>
+
+  <div class="chat">
+
+    <!-- Display search results here -->
+    <div class="search-results" *ngIf="showSearchResults">
+      <div *ngFor="let result of searchResults" class="search-result-item">
+        <p class="search-result-content">{{ result.content }}</p>
+        <p class="search-result-info">{{ result.timestamp | date:'medium' }}</p>
+      </div>
+      <!-- Close Icon -->
+      <div class="close-icon" (click)="closeSearchResults()">
+        <i class="fa fa-times-circle text-danger" aria-hidden="true"></i>
+      </div>
+    </div>
+    <app-userlist *ngIf="!showSearchResults" (clickedUser)="UserClick($event.userId, $event.name)"></app-userlist>
+
+    <div class="messages">
+      <app-conversationhistory [clickedUserId]="clickedUserId" [name]="clickedUserName"
+        *ngIf="clickedUserId" (replyClicked)="handleReplyClicked($event)" (messagePass)="getContent($event)"></app-conversationhistory>
+    </div>
+
+    <div>
+      <app-thread *ngIf="showThreadComponent" [selectedMessage]="selectedMessage" [receiverId]="receiverId"> 
+        <router-outlet></router-outlet>
+      </app-thread>
+    </div>
+  </div>
+</div>

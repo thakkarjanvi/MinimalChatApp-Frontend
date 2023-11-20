@@ -1,0 +1,211 @@
+/* Basic Styles */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+.background {
+  background-color: #f5f5f5;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  width: 100%; /* Set the width to 100% */
+}
+
+/* Navbar Styles */
+.chat-navbar {
+  background-color: #28a745;
+  color: white;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+  width: 95%;
+}
+
+.custom-container {
+  display: flex;
+  align-items: center;
+}
+
+.custom-user-profile {
+  width: 50px;
+  height: 50px;
+  background-color: black;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 12px;
+}
+
+.custom-user-image span {
+  font-size: 24px;
+  color: white;
+}
+
+.messages {
+  display: flex;
+  flex-direction: column;
+}
+
+.messages div {
+  max-width: 70%;
+  margin: 10px 0;
+  padding: 10px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.messages div p {
+  margin: 0;
+  font-size: 16px;
+  word-wrap: break-word;
+}
+
+.messages div small {
+  color: #555;
+  font-size: 12px;
+}
+
+/* Send Chat Styles */
+.send-chat {
+  background-color: white;
+  display: flex;
+  align-items: center;
+  box-shadow: 0px -2px 5px rgba(0, 0, 0, 0.2);
+  width: 100%; /* Set the width to 100% */
+}
+
+.send-chat input[type="text"] {
+  flex: 1;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+.send-button {
+  background-color: #25d366;
+  border: none;
+  /* border-radius: 50%; */
+
+  color: white;
+  width: 40px;
+  height: 40px;
+  margin-left: 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.message-left {
+  text-align: left;
+}
+
+.container {
+  width: 100%; /* Set the width to 100% */
+}
+
+.message-editor {
+  background-color: white;
+  border: 1px solid #ccc;
+  box-shadow: 0px 0px 5px 0px #888;
+  position: absolute;
+  padding: 10px;
+}
+
+.edit-delete-buttons button {
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  margin-right: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+/* Styling for the message editor container */
+.message-editor-container {
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.message-editor-container input[type="text"] {
+  flex: 1;
+  padding: 8px;
+  margin-right: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+/* Styling for the confirm and cancel buttons inside the message editor container */
+.message-editor-container button {
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  padding: 8px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+/* Styling for the delete confirmation message */
+.message-editor-container span {
+  margin-right: 10px;
+  font-weight: bold;
+  color: red;
+}
+
+/* Chat History Styles */
+.history-container {
+  flex: 1;
+  overflow-y: scroll;
+  padding: 20px;
+  height: 50vh;
+  display: flex;
+  flex-direction: column; /* Make the container a column */
+}
+
+/* Style for sender messages */
+.message-left {
+  background-color: #4caf50; /* Green background for sender messages */
+  color: white; /* White text for sender messages */
+  border-radius: 10px; /* Optional: Add rounded corners to sender messages */
+  padding: 10px; /* Optional: Add padding to sender messages */
+  margin-bottom: 10px; /* Optional: Add margin between sender messages */
+  display: inline-block; /* Set display to inline-block */
+  width: fit-content;
+}
+
+.message-right {
+  background-color: #007bff; /* Blue background for receiver messages */
+  color: white; /* White text for receiver messages */
+  border-radius: 10px; /* Optional: Add rounded corners to receiver messages */
+  padding: 10px; /* Optional: Add padding to receiver messages */
+  margin-bottom: 10px; /* Optional: Add margin between receiver messages */
+  display: inline-block; /* Set display to inline-block */
+  text-align: right;
+  width: fit-content;
+  margin-left: auto; /* Push the element to the right side of the parent container */
+}
+
+/* Style for context menu */
+.context-menu {
+  background-color: #f1f1f1; /* Light gray background for context menu */
+  border: 1px solid #ccc; /* Border for context menu */
+  padding: 5px; /* Padding for context menu items */
+}
+
+/* Style for reply button */
+button {
+  background-color: black;
+  color: white; /* White text for buttons */
+  border: none; /* Remove button border */
+  padding: 8px 16px; /* Add padding to buttons */
+  cursor: pointer; /* Change cursor to pointer on hover */
+  margin-top: 5px; /* Optional: Add margin between buttons */
+}

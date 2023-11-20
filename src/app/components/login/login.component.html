@@ -1,1 +1,32 @@
-<p>login works!</p>
+<!-- <p>login works!</p> -->
+
+<div class="main">
+    <div class="login">
+        <h3>Login Form</h3>
+        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+            <input type="email" placeholder="Email address" formControlName="email">
+            <small *ngIf="loginForm.get('email')?.hasError('required') && loginForm.get('email')?.touched" style="color: red;">*Email address is required</small>
+            <small *ngIf="loginForm.get('email')?.hasError('email') && loginForm.get('email')?.touched" style="color: red;">*Invalid email format</small>
+
+            <input type="password" placeholder="Password" formControlName="password">
+            <small *ngIf="loginForm.get('password')?.hasError('required') && loginForm.get('password')?.touched" style="color: red;">*Password is required</small>
+            <small *ngIf="loginForm.get('password')?.hasError('minlength') && loginForm.get('password')?.touched" style="color: red;">*Password must be at least 6 characters long</small>
+            
+            <button type="submit">Login</button>
+            
+            <div class="or-container"><div class="line-separator"></div> <div class="or-label">or</div><div class="line-separator"></div></div>
+
+            <!-- <div class="row">
+                <div class="col-md-12">
+                  <a class="btn btn-lg btn-google btn-block text-uppercase btn-outline" href="#"><img src="https://img.icons8.com/color/16/000000/google-logo.png"> Login Using Google</a>
+                </div>
+            </div> -->
+
+            <div class="social-login">
+                <div id="google-button"></div>
+            </div>
+        </form>
+        <p>Don't have an account? <span><a [routerLink]="['/registration']">Register</a></span></p>
+    </div>
+</div>
+

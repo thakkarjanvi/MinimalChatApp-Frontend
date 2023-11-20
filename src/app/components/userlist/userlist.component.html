@@ -1,0 +1,36 @@
+<!-- <p>userlist works!</p> -->
+
+<div class="sidebar">
+  <div class="user-list">
+    <div class="button">
+      <button (click)="createGroup()">Create Group</button>
+    </div>
+    
+    <h3>User List</h3>
+    <div *ngFor="let user of users; let even = even; let odd = odd" class="user-item" 
+     (click)="UserClick(user.id, user.name)" [ngClass]="{ 'odd': odd, 'even': even, 'selected-user': user.id === selectedUserId }">
+    <!-- <a [routerLink]="['/chat/user', user.id]"> -->
+      <div class=" user-details">
+        <div class="custom-user-image">
+          <div>{{ user.name.charAt(0).toUpperCase() }}</div>
+        </div>
+        <div>{{ user.name }}</div>
+      
+    </div>
+  </div>
+
+  <h3>All Groups</h3>
+  <div *ngFor="let group of groups, let even = even; let odd = odd" class="group-item" 
+    (click)="GroupClick(group.id, group.groupName)" [ngClass]="{ 'odd': odd, 'even': even }">
+        <div class=" user-details">
+        <div class="custom-user-image">
+          <div>{{ group.groupName.charAt(0).toUpperCase() }}</div>
+        </div>
+        <div>{{ group.groupName }}</div> 
+      </div>
+  </div>
+</div>
+
+
+
+

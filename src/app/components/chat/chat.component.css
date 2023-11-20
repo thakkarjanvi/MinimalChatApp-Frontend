@@ -1,0 +1,105 @@
+.chat {
+  display: flex;
+  height: 50vh;
+}
+
+.messages {
+  flex: 3;
+  background-color: #f5f5f5;
+  height: 90vh;
+}
+
+/* Import Google Fonts */
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800&display=swap");
+
+/* Set global styles */
+body {
+  background-color: #eee;
+  font-family: "Poppins", sans-serif;
+  font-weight: 300;
+}
+
+/* Search bar styles */
+.search {
+  position: relative;
+  box-shadow: 0 0 40px rgba(51, 51, 51, 0.1);
+}
+
+.search input {
+  padding: 15px;
+  text-indent: 25px;
+  border: 2px solid #d6d4d4;
+  width: calc(100% - 140px); /* Adjusted width for the input */
+  border-radius: 5px; /* Added border-radius for a rounded appearance */
+}
+
+.search input:focus {
+  box-shadow: none;
+  border: 2px solid blue;
+}
+
+.search .fa-search {
+  position: absolute;
+  top: 20px;
+  left: 16px;
+  color: #555; /* Changed icon color */
+}
+
+.search button {
+  position: absolute;
+  top: 0;
+  right: 5px;
+  width: 90px;
+  padding: 15px;
+  background: #007bff;
+  color: white; /* Added text color */
+  border: none; /* Removed border */
+  border-radius: 5px; /* Added border-radius for a rounded button */
+  cursor: pointer;
+}
+
+/* Add these styles to your component's CSS file */
+
+/* Style for the search results container */
+.search-results {
+  padding: 10px;
+  border: none;
+  background-color: #f9f9f9;
+  position: relative;
+  min-height: 80vh;
+  overflow-y: auto;
+  width: 310px;
+}
+
+/* Style for individual search result items */
+.search-result-item {
+  margin-bottom: 10px;
+  padding: 10px;
+  border: 1px solid #ddd;
+  background-color: #fff;
+}
+
+/* Style for the message content */
+.search-result-content {
+  font-size: 16px;
+  color: #333;
+}
+
+/* Style for the user name or other relevant information in the search result */
+.search-result-user {
+  font-size: 14px;
+  color: #777;
+}
+
+/* Style for the timestamp or any additional information in the search result */
+.search-result-info {
+  font-size: 12px;
+  color: #999;
+}
+
+.close-icon {
+  position: absolute;
+  top: 10px;
+  right: 0px;
+  cursor: pointer;
+}

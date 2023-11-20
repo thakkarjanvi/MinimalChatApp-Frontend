@@ -1,0 +1,61 @@
+/* request-logs.component.css */
+
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f7f7f7;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.filter-section {
+  margin-bottom: 20px;
+}
+
+.filter-section .row {
+  margin-bottom: 10px;
+}
+
+.filter-section label {
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+.table-section table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.table-section th, .table-section td {
+  border: 1px solid #ddd;
+  padding: 10px;
+  text-align: left;
+}
+
+.table-section th {
+  background-color: #f2f2f2;
+}
+
+/* Apply styles based on the selected columns */
+.showIdColumn .table-section td:nth-child(1),
+.showIpAddressColumn .table-section td:nth-child(2),
+.showRequestBodyColumn .table-section td:nth-child(3),
+.showTimestampColumn .table-section td:nth-child(4),
+.showUsernameColumn .table-section td:nth-child(5) {
+  display: table-cell;
+}
+
+.hideColumn .table-section th:nth-child(1),
+.hideColumn .table-section td:nth-child(1),
+.hideColumn .table-section th:nth-child(2),
+.hideColumn .table-section td:nth-child(2),
+.hideColumn .table-section th:nth-child(3),
+.hideColumn .table-section td:nth-child(3),
+.hideColumn .table-section th:nth-child(4),
+.hideColumn .table-section td:nth-child(4),
+.hideColumn .table-section th:nth-child(5),
+.hideColumn .table-section td:nth-child(5) {
+  display: none;
+}

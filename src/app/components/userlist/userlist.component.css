@@ -1,0 +1,86 @@
+.sidebar {
+  background-color: #D3D3D3;
+  padding: 20px;
+  color: black;
+  text-align: center;
+  width: 310px;
+  height: 100vh; /* Set the height to 1vh */
+  overflow-y: auto; /* Add a scrollbar when content overflows */
+}
+
+.user-item {
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  text-align: left;
+  text-decoration: none;
+}
+
+.user-item.odd {
+  background-color: #007BFF;
+}
+
+.user-item.even {
+  background-color: #28A745;
+}
+
+/* .user-item {
+  background-color:  #128C7E;
+} */
+
+.user-details {
+  color: #fff;
+  text-decoration: none !important;
+  display: flex;
+  align-items: center;
+
+}
+
+.user-item a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.custom-user-image {
+  width: 40px;
+  height: 40px;
+  background-color: black; /* Background color for the circle */
+  color: #fff; /* Text color */
+  border-radius: 50%; /* Makes the element a circle */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* text-align: center; */
+  /* font-weight: bold; */
+  font-size: 18px;
+  text-transform: uppercase; /* Convert text to uppercase */
+  margin-right: 10px; /* Adjust as needed */
+}
+
+button {
+  padding: 10px 20px;
+  font-size: 18px;
+  margin: 0 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  background-color: black; 
+  color: #fff; /* White text color */
+}
+
+.group-item {
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  text-align: left;
+  text-decoration: none;
+}
+
+.group-item.odd {
+  background-color: #007BFF;
+}
+
+.group-item.even {
+  background-color: #28A745;
+}
+
