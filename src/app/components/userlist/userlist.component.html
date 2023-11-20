@@ -20,17 +20,16 @@
   </div>
 
   <h3>All Groups</h3>
-  <div *ngFor="let group of groups, let even = even; let odd = odd" class="group-item" [ngClass]="{ 'odd': odd, 'even': even}">
-    <div class=" user-details">
-      <div class="custom-user-image">
-        <div>{{ group.groupName.charAt(0).toUpperCase() }}</div>
+  <div *ngFor="let group of groups, let even = even; let odd = odd" class="group-item" 
+    (click)="GroupClick(group.id, group.groupName)" [ngClass]="{ 'odd': odd, 'even': even }">
+        <div class=" user-details">
+        <div class="custom-user-image">
+          <div>{{ group.groupName.charAt(0).toUpperCase() }}</div>
+        </div>
+        <div>{{ group.groupName }}</div> 
       </div>
-      <div>{{ group.groupName }}</div>
-    
   </div>
-  
 </div>
-  </div>
 
 
 

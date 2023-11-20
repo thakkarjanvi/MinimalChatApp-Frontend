@@ -8,7 +8,7 @@
                 <span>{{ clickedUserName!.charAt(0).toUpperCase() }}</span>
            </div>
         </div>
-        <div style="color: white;">{{ clickedUserName }}</div>
+        <div style="color: white;">{{ clickedUserName }} {{isGroup}} </div>
         
         <h3 class="mb-0 ms-3">{{ selectedUserName }}</h3>
         <div *ngIf="isReceiverIdNull" class="sticky-header-content">
@@ -17,7 +17,7 @@
               <small>&nbsp;{{ member.userName }}</small>
             </p>            
           </span>
-          <button mat-icon-button [matMenuTriggerFor]="moreOptionsMenu">
+          <button *ngIf="isGroup" mat-icon-button [matMenuTriggerFor]="moreOptionsMenu">
             <mat-icon>more_vert</mat-icon>
           </button>
           <mat-menu #moreOptionsMenu="matMenu">
@@ -28,13 +28,10 @@
             <button mat-menu-item (click)="makeMemberAdmin()"*ngIf="isCurrentUserAdminInGroup">Make Admin</button>
           </mat-menu>
         </div>  
-
     </div>
 </nav>
 
 <div class="history-container" #userChat (scroll)="onScroll(userChat)">
-    <!-- <div class="user-chat" *ngIf="messagesFound" #userChat (scroll)="onScroll(userChat)"> -->
-
     <div *ngFor="let message of messages" 
     [ngClass]="{'message-left': message.senderId === clickedUserId, 'message-right': message.senderId !== clickedUserId}"
     (mouseenter)="showReplyButton(message)" (mouseleave)="hideReplyButton(message)" (contextmenu)="onContextMenu($event, message)">
@@ -46,7 +43,6 @@
             <button (click)="deleteMessage()">Delete</button>
         </div>
     </div>
-    <!-- </div> -->
 </div>
 
 
