@@ -3,7 +3,7 @@ import { UserService } from 'src/app/services/user.service';
 import { User } from 'src/app/models/user.model';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
-import { FormGroup } from '@angular/forms';
+// import { FormGroup } from '@angular/forms';
 import { GroupService } from 'src/app/services/group.service';
 import { AuthService } from 'src/app/services/auth.service';
 import { HttpHeaders } from '@angular/common/http';
@@ -19,22 +19,16 @@ import { Group } from 'src/app/models/Group';
 })
 export class UserlistComponent implements OnInit, OnChanges {
 
-  @Output() clickedUser = new EventEmitter<{ userId: any; name: string }>();
-  selectedUserId: string | null = null;
+  @Output() clickedUser = new EventEmitter<{ userId: any; name: string; isGroup: boolean }>();
 
+  selectedUserId: string | null = null;
   @Input() users: User[] = [];
   @Input() groups: Group[] = [];
-  
-  //clickedUser:any;
-  //loggedInuser : any='' ;
-
-
 
   constructor(private userService: UserService,private authService: AuthService,private dialog: MatDialog, private toastr: ToastrService,private router:Router, private groupService: GroupService) {}
 
    ngOnInit(): void {
-    this.userService.getUsers().subscribe((data:any) => {
-      console.log(data.users)
+    this.userService.getUsers(false).subscribe((data:any) => {
       this.users = data.users;
       this.toastr.success('User list fetched successfully!', 'Success');
     },
@@ -45,7 +39,6 @@ export class UserlistComponent implements OnInit, OnChanges {
   );
   this.groupService.getAllGroups().subscribe((data:any) => 
      {
-    console.log(data)
       this.groups = data; // Assuming your API response contains an array of groups
       this.toastr.success('Group fetched successfully!', 'Success');
     },
@@ -53,13 +46,18 @@ export class UserlistComponent implements OnInit, OnChanges {
       console.error('Error fetching groups:', error);
     }
   );
-  // this.loggedInuser=localStorage.getItem("user");
-  // console.log(this.loggedInuser.profile)
+ 
 }
 UserClick(userId: any, name:string): void {
     this.selectedUserId = userId;
-  this.clickedUser.emit({ userId, name });
+    this.clickedUser.emit({ userId, name, isGroup: false });
 }
+
+GroupClick(groupId: any, groupName:string): void {
+  this.selectedUserId = groupId;
+  this.clickedUser.emit({ userId: groupId, name: groupName, isGroup: true });
+}
+
 
 ngOnChanges(changes: SimpleChanges) {
   // Reset the selectedUserId when users change
@@ -68,41 +66,19 @@ ngOnChanges(changes: SimpleChanges) {
   }
 }
 
-// getAllUsers() {
-//   // Fetch all users
-//   this.userService.getUsers().subscribe(
-//     (response: any) => {
-//       if (response.statusCode === 200) {
-//         this.users = response.data;
-       
-//         this.users.forEach(() => {
-          
-//         });
-//       } else {
-//         this.toastr.error('failed to fetch users');
-//       }
-//     },
-//     (error) => {
-//       console.error('Failed to fetch users:', error);
-//       this.toastr.error('Failed to fetch users');
-//     }
-//   );
-
-
-// }
-
-
-// loadGroups() {
-//   this.groupService.getAllGroups().subscribe(
-//     (response: any) => {
-//     console.log(response)
-//       this.groups = response; // Assuming your API response contains an array of groups
-//     },
-//     (error) => {
-//       console.error('Error fetching groups:', error);
-//     }
-//   );
-// }
+loadGroups() {
+  this.groupService.getAllGroups().subscribe((data:any) => 
+  {
+ console.log(data)
+   this.groups = data; // Assuming your API response contains an array of groups
+   
+   this.toastr.success('Group fetched successfully!', 'Success');
+ },
+ (error) => {
+   console.error('Error fetching groups:', error);
+ }
+);
+}
 
 createGroup() {
   const usersWithoutGroup = this.users.filter((user) => user.email !== null);
@@ -122,7 +98,9 @@ createGroup() {
       this.groupService.createGroup(groupName, selectedUsers).subscribe(
         (response) => {
           console.log(response);
-          this.userService.getUsers();
+          this.userService.getUsers(true);
+          // this.groupService.getAllGroups();
+          this.loadGroups();
           this.toastr.success('Group created successfully');
         },
 

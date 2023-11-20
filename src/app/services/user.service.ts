@@ -13,7 +13,7 @@ export class UserService {
 
   constructor(private http: HttpClient) { }
 
-  getUsers(): Observable<User[]> {
+  getUsers(isOnlyUserList:boolean): Observable<User[]> {
 
     const token = localStorage.getItem('token');
 
@@ -21,7 +21,7 @@ export class UserService {
       'Authorization': `Bearer ${token}`
     });
 
-    let isOnlyUserList: Boolean = false;
+    
     const url = `${this.apiUrl}users?isOnlyUserList=${isOnlyUserList}`;
 
     return this.http.get<User[]>(this.apiUrl, { headers });

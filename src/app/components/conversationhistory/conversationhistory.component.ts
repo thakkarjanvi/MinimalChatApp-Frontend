@@ -24,6 +24,7 @@ export class ConversationhistoryComponent implements OnInit {
 
   @Input() clickedUserId: any;
   @Input() name: string = '';
+  @Input() isGroup: boolean = true;
   @Output() replyClicked: EventEmitter<boolean> = new EventEmitter<boolean>();
   @Output() messagePass: EventEmitter<Message> = new EventEmitter<Message>();
   
@@ -44,7 +45,6 @@ export class ConversationhistoryComponent implements OnInit {
   groupmembers: any;
   selectedUserName: any;
   @Input() userId: string = '';
-  isGroup: boolean = false;
   userChat: { timestamp: Date }[] = [];
   groupUsers: any;
   currentUserId: string = '';
@@ -60,7 +60,7 @@ export class ConversationhistoryComponent implements OnInit {
     private groupService : GroupService
   ) {}
 
-  ngOnInit(): void {
+  ngOnInit() {
     this.getConversationHistory();
     this.subscribeToSignalRMessages();
     this.contextMenuVisible = false;
@@ -450,6 +450,7 @@ editGroupName() {
   const dialogRef = this.dialog.open(EditGroupNameComponent, {
     data: {
       groupname: this.selectedUserName,
+
     },
   });
   dialogRef.afterClosed().subscribe(
